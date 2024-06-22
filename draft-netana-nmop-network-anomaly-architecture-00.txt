@@ -1,0 +1,392 @@
+
+
+
+
+NMOP                                                             T. Graf
+Internet-Draft                                                     W. Du
+Intended status: Informational                                  Swisscom
+Expires: 24 December 2024                                    P. Francois
+                                                               INSA-Lyon
+                                                            22 June 2024
+
+
+       An Architecture for a Network Anomaly Detection Framework
+           draft-netana-nmop-network-anomaly-architecture-00
+
+Abstract
+
+   This document describes the motivation and architecture of a Network
+   Anomaly Detection Framework and the relationship to other documents
+   describing network symptom semantics and network incident lifecycle.
+
+   The described architecture for detecting network service interruption
+   is generic applicable and extensible.  Different applications are
+   being described and exampled with open-source running code.
+
+Discussion Venues
+
+   This note is to be removed before publishing as an RFC.
+
+   Discussion of this document takes place on the Operations and
+   Management Area Working Group Working Group mailing list
+   (nmop@ietf.org), which is archived at
+   https://mailarchive.ietf.org/arch/browse/nmop/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/network-analytics/draft-netana-nmop-network-
+   anomaly-architecture/.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 1]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+   This Internet-Draft will expire on 24 December 2024.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Motivation  . . . . . . . . . . . . . . . . . . . . . . .   3
+     1.2.  Scope . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   4
+     2.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
+   3.  Elements of the Architecture  . . . . . . . . . . . . . . . .   5
+   4.  Implementation Status . . . . . . . . . . . . . . . . . . . .   5
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   6
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
+
+1.  Introduction
+
+   Todays highly virtualized large scale networks are a challenge for
+   network operation to monitor due to its vast amount of dependencies.
+   Humans are no longer capable to verify manually all dependencies end
+   to end in an appropriate time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 2]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+   IP networks are the backbone of todays society.  We individually
+   depend on networks fulfilling the purpose of forwarding our IP
+   packets from A to B at any time of the day in a timely fashion.  A
+   loss of connectivity for a short period of time can have manyfold
+   implications.  From unable to browse the web, watch a soccer game,
+   access the company intranet or even in life threatening situations
+   bein no longer able to reach emergency services.  Where increased
+   packet forwarding delay due to congestion, depend on the real-time
+   character of the network application, have none to severe impact on
+   the performance of the application.
+
+   Networks are in general deterministic.  However the usage of the
+   network only somewhat.  Humans, as in a large group of people, are
+   somehow predictable.  There are time of the day patterns in terms of
+   when we are eating, sleeping, working or leisure.  And these patterns
+   are potentially changing depending on age and profession.
+
+1.1.  Motivation
+
+   When operational or configurational changes in connectivity services
+   are happening, the objective therefore is to detect interruption at
+   network operation faster then the users using those connectivity
+   services.
+
+   In order to achieve this objective, automation in network monitoring
+   is required since the amount or people operating the network are
+   simply outnumbered by the amount of people using connectivity
+   services.
+
+   This automation needs to monitor network changes holistically by
+   monitoring all 3 network planes simultaneously for a given
+   connectivity service and detect wherever that change is a service
+   disruptive, received packets are no longer forwarded to the desired
+   destination, or not.  A change in control and management plane
+   indicate a network topology change.  Where a change in the forwarding
+   plane describe how the packets are being forwarded.  Or in other
+   words, control and management plane changes can be attributed to
+   network state changes where forwarding plane to the outcome of these
+   network state changes.
+
+   Since changes in networks are happening all the time due to the vast
+   amount of dependencies, a scoring system is needed to indicate
+   wherever the change is disruptive, the amount of transport sessions,
+   flows, are affected and wherever such interruptions are usual or
+   exceptional.
+
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 3]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+1.2.  Scope
+
+   Such objectives can be achieved by applying checks on network
+   modelled time series data containing semantics describing their
+   dependencies across network planes.  These checks can be based on
+   domain knowledge, in essence how networks work and on outlier
+   detection techniques when measurements are changing over time due to
+   human factors.
+
+   The described scope does not take the connectivity service intend
+   into account nor does it verify wherever the intend is being achieved
+   all the time.  Changes to the service intend causing service
+   disruptions are therefore considered service disruptions where on
+   monitoring systems taking the intend into account this is considered
+   as intended.
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2.1.  Terminology
+
+   This document defines the following terms:
+
+   Message Broker: is an intermediary software component that translates
+   messages from the formal messaging protocol of the sender to the
+   formal messaging protocol of the receiver routed in topics.  Message
+   brokers are elements in Data Mesh where software applications
+   communicate by exchanging formally-defined messages.
+
+   Stream Catalog: provides a single point of access that allows users
+   to centrally search semantics for information across a Message
+   Broker.
+
+   Additionally it makes use of the terms defined in
+   [I-D.ietf-nmop-terminology].
+
+   The following terms are used as defined in
+   [I-D.ietf-nmop-terminology]:
+
+   *  System
+
+   *  Resource
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 4]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+   *  Characteristic
+
+   *  Condition
+
+   *  Change
+
+   *  Detect
+
+   *  Event
+
+   *  State
+
+   *  Relevance
+
+   *  Occurrence
+
+   *  Incident
+
+   *  Problem
+
+   *  Symptom
+
+   *  Cause
+
+   *  Root Cause
+
+   *  Consolidation
+
+   *  Alert
+
+   *  Transient
+
+   *  Intermittent
+
+3.  Elements of the Architecture
+
+   The architecture consists of.
+
+4.  Implementation Status
+
+   Note to the RFC-Editor: Please remove this section before publishing.
+
+   This section records the status of known implementations.
+
+5.  Security Considerations
+
+   TBD
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 5]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+6.  Acknowledgements
+
+   The authors would like to thank TBD for their review and valuable
+   comments.  TBD for review and contributing code.
+
+7.  References
+
+7.1.  Normative References
+
+   [I-D.ietf-nmop-terminology]
+              Davis, N., Farrel, A., Graf, T., Wu, Q., and C. Yu, "Some
+              Key Terms for Network Incident and Problem Management",
+              Work in Progress, Internet-Draft, draft-ietf-nmop-
+              terminology-01, 10 June 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-nmop-
+              terminology-01>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+7.2.  Informative References
+
+Authors' Addresses
+
+   Thomas Graf
+   Swisscom
+   Binzring 17
+   CH-8045 Zurich
+   Switzerland
+   Email: thomas.graf@swisscom.com
+
+
+   Wanting Du
+   Swisscom
+   Binzring 17
+   CH-8045 Zurich
+   Switzerland
+   Email: wanting.du@swisscom.com
+
+
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 6]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+   Pierre Francois
+   INSA-Lyon
+   Lyon
+   France
+   Email: pierre.francois@insa-lyon.fr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 7]
