@@ -19,9 +19,10 @@ Abstract
    Anomaly Detection Framework and the relationship to other documents
    describing network symptom semantics and network incident lifecycle.
 
-   The described architecture for detecting network service interruption
-   is generic applicable and extensible.  Different applications are
-   being described and exampled with open-source running code.
+   The described architecture for detecting IP network service
+   interruption is generic applicable and extensible.  Different
+   applications are being described and exampled with open-source
+   running code.
 
 Discussion Venues
 
@@ -46,10 +47,9 @@ Status of This Memo
    working documents as Internet-Drafts.  The list of current Internet-
    Drafts is at https://datatracker.ietf.org/drafts/current/.
 
-   Internet-Drafts are draft documents valid for a maximum of six months
-   and may be updated, replaced, or obsoleted by other documents at any
-   time.  It is inappropriate to use Internet-Drafts as reference
-   material or to cite them other than as "work in progress."
+
+
+
 
 
 
@@ -57,6 +57,11 @@ Graf, et al.            Expires 24 December 2024                [Page 1]
 
 Internet-Draft     Network Anomaly Detection Framework         June 2024
 
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
 
    This Internet-Draft will expire on 24 December 2024.
 
@@ -81,29 +86,24 @@ Table of Contents
      1.2.  Scope . . . . . . . . . . . . . . . . . . . . . . . . . .   4
    2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   4
      2.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
-   3.  Elements of the Architecture  . . . . . . . . . . . . . . . .   5
-   4.  Implementation Status . . . . . . . . . . . . . . . . . . . .   5
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   6
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
+     2.2.  Outlier Detection . . . . . . . . . . . . . . . . . . . .   5
+     2.3.  Knowledge Based Detection . . . . . . . . . . . . . . . .   6
+     2.4.  Data Mesh . . . . . . . . . . . . . . . . . . . . . . . .   6
+   3.  Elements of the Architecture  . . . . . . . . . . . . . . . .   7
+   4.  Implementation Status . . . . . . . . . . . . . . . . . . . .   7
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   7
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   7
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .   8
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
 
 1.  Introduction
 
-   Todays highly virtualized large scale networks are a challenge for
+   Todays highly virtualized large scale IP networks are a challenge for
    network operation to monitor due to its vast amount of dependencies.
    Humans are no longer capable to verify manually all dependencies end
    to end in an appropriate time.
-
-
-
-
-
-
-
-
 
 
 
@@ -117,19 +117,20 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    IP networks are the backbone of todays society.  We individually
    depend on networks fulfilling the purpose of forwarding our IP
    packets from A to B at any time of the day in a timely fashion.  A
-   loss of connectivity for a short period of time can have manyfold
+   loss of connectivity for a short period of time has manyfold
    implications.  From unable to browse the web, watch a soccer game,
    access the company intranet or even in life threatening situations
-   bein no longer able to reach emergency services.  Where increased
-   packet forwarding delay due to congestion, depend on the real-time
+   being no longer able to reach emergency services.  Where increased
+   packet forwarding delay due to congestion, depending on the real-time
    character of the network application, have none to severe impact on
    the performance of the application.
 
-   Networks are in general deterministic.  However the usage of the
-   network only somewhat.  Humans, as in a large group of people, are
-   somehow predictable.  There are time of the day patterns in terms of
-   when we are eating, sleeping, working or leisure.  And these patterns
-   are potentially changing depending on age and profession.
+   Networks are in general deterministic.  However the usage of networks
+   only somewhat.  Humans, as in a large group of people, are somehow
+   predictable.  There are time of the day patterns in terms of when we
+   are eating, sleeping, working or leisure.  And these patterns are
+   potentially changing depending on age, profession and cultural
+   background.
 
 1.1.  Motivation
 
@@ -145,7 +146,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    This automation needs to monitor network changes holistically by
    monitoring all 3 network planes simultaneously for a given
-   connectivity service and detect wherever that change is a service
+   connectivity service and detect wherever that change is service
    disruptive, received packets are no longer forwarded to the desired
    destination, or not.  A change in control and management plane
    indicate a network topology change.  Where a change in the forwarding
@@ -159,7 +160,6 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    wherever the change is disruptive, the amount of transport sessions,
    flows, are affected and wherever such interruptions are usual or
    exceptional.
-
 
 
 
@@ -260,6 +260,100 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    *  Intermittent
 
+2.2.  Outlier Detection
+
+   Outlier Detection, also known as anomaly detection, describes a
+   systematic approach to identify rare data points deviating
+   significantly from the majority.  Outliers can manifest as single
+   data point or as a sequence of data points.  There are multiple ways
+   in general to classify anomalies, but for the context of this draft,
+   the following three classes are taken into account:
+
+   Global outliers:  An outlier is considered "global" if its behaviour
+      is outside the entirety of the considered data set.  For example,
+      if the average dropped packet count is between 0 and 10 per minute
+      and a small time-window gets the value 1000, this is considered a
+      global anomaly.
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 5]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+   Contextual outliers:  An outlier is considered "contextual" if its
+      behaviour is within a normal (expected) range, but it would not be
+      expected based on some context.  Context can be defined as a
+      function of multiple parameters, such as time, location, etc.  For
+      example, the forwarded packet volume overnight reaches levels
+      which might be totally normal for the daytime, but anomalous and
+      unexpected for the nighttime.
+
+   Collective outliers:  An outlier is considered "collective" if the
+      behaviour of each single data point that are part of the anomaly
+      are within expected ranges (so they are not anomalous it either a
+      contextual or a global sense), but the group, taking all the data
+      points together, is.  Note that the group can be made within a
+      single time series (a sequence of data points is anomalous) or
+      across multiple metrics (e.g. if looking at two metrics together,
+      the combined behavior turns out to be anomalous).  In Network
+      Telemetry time series, one way this can manifest is that the
+      amount of network paths and interface state changes matches the
+      time range when the forwarded packet volume decreases as a group.
+
+   For each outlier a score between 0 and 1 is being calculated.  The
+   higher the value, the higher the probability that the observed data
+   point is an outlier.  Anomaly detection: A survey [VAP09] gives
+   additional details on anomaly detection and its types.
+
+2.3.  Knowledge Based Detection
+
+   Text
+
+2.4.  Data Mesh
+
+   The Data Mesh [Deh22] Architecture distinguishes between operational
+   and analytical data.  Operational data refers to collected data from
+   operational systems.  While analytical data refers to insights gained
+   from operational data.
+
+2.4.1.  Operational Network Data
+
+   In terms of network observability, semantics of operational network
+   metrics are defined by IETF and are categorized as described in the
+   Network Telemetry Framework [RFC9232] in the following three
+   different network planes:
+
+   Management Plane:  Time series data describing the state changes and
+      statistics of a network node and its components.  For example,
+      Interface state and statistics modelled in ietf-interfaces.yang
+      [RFC8343]
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 6]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+   Control Plane:  Time series data describing the state and state
+      changes of network reachability.  For example, BGP VPNv6 unicast
+      updates and withdrawals exported in BGP Monitoring Protocol (BMP)
+      [RFC7854] and modeled in BGP [RFC4364]
+
+   Forwarding Plane:  Time series data describing the forwarding
+      behavior of packets and its data-plane context.  For example,
+      dropped packet count modelled in IPFIX entity
+      forwardingStatus(IE89) [RFC7270] and packetDeltaCount(IE2)
+      [RFC5102] and exportet with IPFIX [RFC7011].
+
+2.4.2.  Analytical Observed Symptoms
+
+   In this section observed network symptoms are specified and
+   categorized according to the following scheme:
+
 3.  Elements of the Architecture
 
    The architecture consists of.
@@ -273,14 +367,6 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 5.  Security Considerations
 
    TBD
-
-
-
-
-Graf, et al.            Expires 24 December 2024                [Page 5]
-
-Internet-Draft     Network Anomaly Detection Framework         June 2024
-
 
 6.  Acknowledgements
 
@@ -299,6 +385,15 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
               <https://datatracker.ietf.org/doc/html/draft-ietf-nmop-
               terminology-01>.
 
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 7]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -308,7 +403,62 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+   [RFC9232]  Song, H., Qin, F., Martinez-Julia, P., Ciavaglia, L., and
+              A. Wang, "Network Telemetry Framework", RFC 9232,
+              DOI 10.17487/RFC9232, May 2022,
+              <https://www.rfc-editor.org/info/rfc9232>.
+
 7.2.  Informative References
+
+   [Deh22]    Dehghani, Z., "Data Mesh", O'Reilly Media,
+              ISBN 9781492092391, March 2022,
+              <https://www.oreilly.com/library/view/data-
+              mesh/9781492092384/>.
+
+   [RFC4364]  Rosen, E. and Y. Rekhter, "BGP/MPLS IP Virtual Private
+              Networks (VPNs)", RFC 4364, DOI 10.17487/RFC4364, February
+              2006, <https://www.rfc-editor.org/info/rfc4364>.
+
+   [RFC5102]  Quittek, J., Bryant, S., Claise, B., Aitken, P., and J.
+              Meyer, "Information Model for IP Flow Information Export",
+              RFC 5102, DOI 10.17487/RFC5102, January 2008,
+              <https://www.rfc-editor.org/info/rfc5102>.
+
+   [RFC7011]  Claise, B., Ed., Trammell, B., Ed., and P. Aitken,
+              "Specification of the IP Flow Information Export (IPFIX)
+              Protocol for the Exchange of Flow Information", STD 77,
+              RFC 7011, DOI 10.17487/RFC7011, September 2013,
+              <https://www.rfc-editor.org/info/rfc7011>.
+
+   [RFC7270]  Yourtchenko, A., Aitken, P., and B. Claise, "Cisco-
+              Specific Information Elements Reused in IP Flow
+              Information Export (IPFIX)", RFC 7270,
+              DOI 10.17487/RFC7270, June 2014,
+              <https://www.rfc-editor.org/info/rfc7270>.
+
+   [RFC7854]  Scudder, J., Ed., Fernando, R., and S. Stuart, "BGP
+              Monitoring Protocol (BMP)", RFC 7854,
+              DOI 10.17487/RFC7854, June 2016,
+              <https://www.rfc-editor.org/info/rfc7854>.
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 8]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+   [RFC8343]  Bjorklund, M., "A YANG Data Model for Interface
+              Management", RFC 8343, DOI 10.17487/RFC8343, March 2018,
+              <https://www.rfc-editor.org/info/rfc8343>.
+
+   [VAP09]    Chandola, V., Banerjee, A., and V. Kumar, "Anomaly
+              detection: A survey", IETF 117, Applied Networking
+              Research Workshop, DOI 10.1145/1541880.1541882, July 2009,
+              <https://www.researchgate.net/
+              publication/220565847_Anomaly_Detection_A_Survey>.
 
 Authors' Addresses
 
@@ -326,16 +476,6 @@ Authors' Addresses
    CH-8045 Zurich
    Switzerland
    Email: wanting.du@swisscom.com
-
-
-
-
-
-
-
-Graf, et al.            Expires 24 December 2024                [Page 6]
-
-Internet-Draft     Network Anomaly Detection Framework         June 2024
 
 
    Pierre Francois
@@ -361,32 +501,4 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Graf, et al.            Expires 24 December 2024                [Page 7]
+Graf, et al.            Expires 24 December 2024                [Page 9]

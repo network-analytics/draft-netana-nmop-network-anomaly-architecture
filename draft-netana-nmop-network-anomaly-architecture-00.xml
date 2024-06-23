@@ -90,9 +90,10 @@
       Anomaly Detection Framework and the relationship to other documents
       describing network symptom semantics and network incident lifecycle.</t>
 
-      <t>The described architecture for detecting network service interruption
-      is generic applicable and extensible. Different applications are being
-      described and exampled with open-source running code.</t>
+      <t>The described architecture for detecting IP network service
+      interruption is generic applicable and extensible. Different
+      applications are being described and exampled with open-source running
+      code.</t>
     </abstract>
 
     <note removeInRFC="true">
@@ -110,7 +111,7 @@
 
   <middle>
     <section anchor="Introduction" title="Introduction">
-      <t>Todays highly virtualized large scale networks are a challenge for
+      <t>Todays highly virtualized large scale IP networks are a challenge for
       network operation to monitor due to its vast amount of dependencies.
       Humans are no longer capable to verify manually all dependencies end to
       end in an appropriate time.</t>
@@ -118,19 +119,19 @@
       <t>IP networks are the backbone of todays society. We individually
       depend on networks fulfilling the purpose of forwarding our IP packets
       from A to B at any time of the day in a timely fashion. A loss of
-      connectivity for a short period of time can have manyfold implications.
-      From unable to browse the web, watch a soccer game, access the company
-      intranet or even in life threatening situations bein no longer able to
+      connectivity for a short period of time has manyfold implications. From
+      unable to browse the web, watch a soccer game, access the company
+      intranet or even in life threatening situations being no longer able to
       reach emergency services. Where increased packet forwarding delay due to
-      congestion, depend on the real-time character of the network
+      congestion, depending on the real-time character of the network
       application, have none to severe impact on the performance of the
       application.</t>
 
-      <t>Networks are in general deterministic. However the usage of the
-      network only somewhat. Humans, as in a large group of people, are
-      somehow predictable. There are time of the day patterns in terms of when
-      we are eating, sleeping, working or leisure. And these patterns are
-      potentially changing depending on age and profession.</t>
+      <t>Networks are in general deterministic. However the usage of networks
+      only somewhat. Humans, as in a large group of people, are somehow
+      predictable. There are time of the day patterns in terms of when we are
+      eating, sleeping, working or leisure. And these patterns are potentially
+      changing depending on age, profession and cultural background.</t>
 
       <section anchor="Motivation" title="Motivation">
         <t>When operational or configurational changes in connectivity
@@ -145,7 +146,7 @@
 
         <t>This automation needs to monitor network changes holistically by
         monitoring all 3 network planes simultaneously for a given
-        connectivity service and detect wherever that change is a service
+        connectivity service and detect wherever that change is service
         disruptive, received packets are no longer forwarded to the desired
         destination, or not. A change in control and management plane indicate
         a network topology change. Where a change in the forwarding plane
@@ -245,6 +246,115 @@
             <t>Intermittent</t>
           </list></t>
       </section>
+
+      <section anchor="Outlier_Detection" title="Outlier Detection">
+        <t>Outlier Detection, also known as anomaly detection, describes a
+        systematic approach to identify rare data points deviating
+        significantly from the majority. Outliers can manifest as single data
+        point or as a sequence of data points. There are multiple ways in
+        general to classify anomalies, but for the context of this draft, the
+        following three classes are taken into account:</t>
+
+        <dl>
+          <dt>Global outliers:</dt>
+
+          <dd>An outlier is considered "global" if its behaviour is outside
+          the entirety of the considered data set. For example, if the average
+          dropped packet count is between 0 and 10 per minute and a small
+          time-window gets the value 1000, this is considered a global
+          anomaly.</dd>
+        </dl>
+
+        <dl>
+          <dt>Contextual outliers:</dt>
+
+          <dd>An outlier is considered "contextual" if its behaviour is within
+          a normal (expected) range, but it would not be expected based on
+          some context. Context can be defined as a function of multiple
+          parameters, such as time, location, etc. For example, the forwarded
+          packet volume overnight reaches levels which might be totally normal
+          for the daytime, but anomalous and unexpected for the
+          nighttime.</dd>
+        </dl>
+
+        <dl>
+          <dt>Collective outliers:</dt>
+
+          <dd>An outlier is considered "collective" if the behaviour of each
+          single data point that are part of the anomaly are within expected
+          ranges (so they are not anomalous it either a contextual or a global
+          sense), but the group, taking all the data points together, is. Note
+          that the group can be made within a single time series (a sequence
+          of data points is anomalous) or across multiple metrics (e.g. if
+          looking at two metrics together, the combined behavior turns out to
+          be anomalous). In Network Telemetry time series, one way this can
+          manifest is that the amount of network paths and interface state
+          changes matches the time range when the forwarded packet volume
+          decreases as a group.</dd>
+        </dl>
+
+        <t>For each outlier a score between 0 and 1 is being calculated. The
+        higher the value, the higher the probability that the observed data
+        point is an outlier. <xref target="VAP09">Anomaly detection: A
+        survey</xref> gives additional details on anomaly detection and its
+        types.</t>
+      </section>
+
+      <section anchor="Knowledge_Based_Detection"
+               title="Knowledge Based Detection">
+        <t>Text</t>
+      </section>
+
+      <section anchor="Data_Mesh" title="Data Mesh">
+        <t>The <xref target="Deh22">Data Mesh</xref> Architecture
+        distinguishes between operational and analytical data. Operational
+        data refers to collected data from operational systems. While
+        analytical data refers to insights gained from operational data.</t>
+
+        <section anchor="Operational_Network_Data"
+                 title="Operational Network Data">
+          <t>In terms of network observability, semantics of operational
+          network metrics are defined by IETF and are categorized as described
+          in the Network Telemetry Framework <xref target="RFC9232"/> in the
+          following three different network planes:</t>
+
+          <dl>
+            <dt>Management Plane:</dt>
+
+            <dd>Time series data describing the state changes and statistics
+            of a network node and its components. For example, Interface state
+            and statistics modelled in ietf-interfaces.yang <xref
+            target="RFC8343"/></dd>
+          </dl>
+
+          <dl>
+            <dt>Control Plane:</dt>
+
+            <dd>Time series data describing the state and state changes of
+            network reachability. For example, BGP VPNv6 unicast updates and
+            withdrawals exported in BGP Monitoring Protocol (BMP) <xref
+            target="RFC7854"/> and modeled in BGP <xref
+            target="RFC4364"/></dd>
+          </dl>
+
+          <dl>
+            <dt>Forwarding Plane:</dt>
+
+            <dd>Time series data describing the forwarding behavior of packets
+            and its data-plane context. For example, dropped packet count
+            modelled in IPFIX entity forwardingStatus(IE89) <xref
+            target="RFC7270"/> and packetDeltaCount(IE2) <xref
+            target="RFC5102"/> and exportet with IPFIX <xref
+            target="RFC7011"/>.</dd>
+          </dl>
+        </section>
+
+        <section anchor="Analyticsl_Observed_Symptoms"
+                 title="Analytical Observed Symptoms">
+          <t>In this section observed network symptoms are specified and
+          categorized according to the following scheme:</t>
+        </section>
+      </section>
     </section>
 
     <section anchor="Elements_of_the_Architecture"
@@ -275,9 +385,58 @@
 
       <?rfc include='reference.RFC.8174'?>
 
+      <?rfc include='reference.RFC.9232'?>
+
       <?rfc include='reference.I-D.ietf-nmop-terminology'?>
     </references>
 
-    <references title="Informative References"/>
+    <references title="Informative References">
+      <?rfc include='reference.RFC.4364'?>
+
+      <?rfc include='reference.RFC.5102'?>
+
+      <?rfc include='reference.RFC.7011'?>
+
+      <?rfc include='reference.RFC.7270'?>
+
+      <?rfc include='reference.RFC.7854'?>
+
+      <?rfc include='reference.RFC.8343'?>
+
+      <reference anchor="VAP09"
+                 target="https://www.researchgate.net/publication/220565847_Anomaly_Detection_A_Survey">
+        <front>
+          <title>Anomaly detection: A survey</title>
+
+          <author fullname="Varun Chandola" initials="V." surname="Chandola"/>
+
+          <author fullname="Arindam Banerjee" initials="A." surname="Banerjee"/>
+
+          <author fullname="Vipin Kumar" initials="V." surname="Kumar"/>
+
+          <date month="July" year="2009"/>
+        </front>
+
+        <seriesInfo name="DOI" value="10.1145/1541880.1541882"/>
+
+        <refcontent>IETF 117, Applied Networking Research
+        Workshop</refcontent>
+      </reference>
+
+      <reference anchor="Deh22"
+                 target="https://www.oreilly.com/library/view/data-mesh/9781492092384/">
+        <front>
+          <title>Data Mesh</title>
+
+          <author fullname="Zhamak Dehghani" initials="Z." surname="Dehghani"/>
+
+          <date month="March" year="2022"/>
+        </front>
+
+        <seriesInfo name="ISBN" value="9781492092391"/>
+
+        <refcontent>O'Reilly Media</refcontent>
+      </reference>
+    </references>
   </back>
 </rfc>
