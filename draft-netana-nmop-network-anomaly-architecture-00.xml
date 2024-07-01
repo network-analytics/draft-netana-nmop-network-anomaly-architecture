@@ -359,7 +359,70 @@
 
     <section anchor="Elements_of_the_Architecture"
              title="Elements of the Architecture">
-      <t>The architecture consists of.</t>
+
+      <t>An architecture aimed at detecting service disruptions is typically
+        built upon multiple components, for which design choices need to be made.</t>
+
+    <t> Collection is the process of extracting monitoring data form the network. </t>
+    <t> Aggregation is the process of producing data upon which detection of a service disruption can be performed, based on the collected data.</t>
+    <t> Service Disruption Detection is the process which actually "runs the maths" on the produced data in order to decide whether a service disruption is taking place.</t>
+    <t> Alerting is the process of notifying an operator that the system has detected a service disruption, and that action may have to be taken to resolve an ongoing issue. </t>
+    <t> Replaying management is the process of storing and presenting the necessary data that allows the human operator to observe and analyse the data necessary to understand the raised alert. </t>
+
+       <section anchor="Arch_Collection" title = "Collection">
+        <t>Collection of network monitoring data involves the configuration of the monitoring data and the configuration of the collection infrastucture to receive the monitoring data produced by the network. </t>
+
+        </section>
+
+       <section anchor="Arch_Aggregation" title = "Aggregation">
+
+        <t>Collection of network monitoring data involves the configuration of the monitoring data and the configuration of the collection infrastucture to receive the monitoring data produced by the network.
+        The aggregated data needs to be presented to the Service Disruption Detection component. This can be achieved in multiple ways, depending on the architecture of the SDD component.</t>
+
+        </section>
+
+        <section anchor = "Arch_SDD" title="Service Disruption Detection">
+
+            <t> Service Disruption Detection processes the aggregated network data
+            in order to decide whether a service is degraged to the point where the network
+            operators need to be alerted of an ongoing problem within the network.</t>
+
+            <t> Two key aspects need to be considered when designed the SDD
+            component. First, the way the data is being processed needs to be carefully
+            designed, as networks typically produce extremely large amounts of data which
+            may hinder the scalability of the architecture. Second, the algorithms used to
+            make a decision to alert the operator need to be designed in such a way that
+            the operator can trust that a targeted Service Disruption will be detected (no
+            false negatives), while not spamming the operator with alerts that do not reflect an actual issue within the network.</t>
+
+            <t>Two approaches are typically followed to present the data to the SDD system. Classically, the aggregated data can be stored in a database that is polled at regular intervals
+            by the SDD component for decision making. Alternatively, a streaming approach can be followed so as to XYZ.</t>
+
+            <t>For SDD per-se, two families of algorithms can be decided upon. First, rule based approaches can be used, mimicking the process that human operators follow when looking at the data. </t>
+            <t>Profiles, Strategies, checks.</t>
+            <t>Second, machine learning tools can be used, with the aim of avoiding the efforts described above. </t>
+
+            <t>Pros and Cons. RB requires work and parametrization. It cannot detect SDD that the operator didn't think about beforhand. ML requires less work but, if not training can be performed beforehand, or
+            training cannot be generalized, it requires a long time of running before being efficient, typically crippling the system with false positives/false negatives. There is no perfect choice to make here. </t>
+
+            </section>
+
+
+        <section anchor="Arch_Alerting" title= "Alerting">
+
+            <t>When the SDD component decides that a service is undergoing a disruption, a notification needs to be made to the operation management system of the service provider.
+            Multiple practical aspects need to be taken into account in this component. </t>
+
+            <t>When the issue lasts longer than the interval at which the SDD
+            component runs, the alerting mechanism should not create multiple tickets to
+            the operator, so as to not overwhelm the management of the issue.  However, the
+            information provided along with the alert should be kept up to date during the
+            full duration of the issue. </t>
+
+        </section>
+
+
+
     </section>
 
     <section anchor="Implementation" title="Implementation Status">
