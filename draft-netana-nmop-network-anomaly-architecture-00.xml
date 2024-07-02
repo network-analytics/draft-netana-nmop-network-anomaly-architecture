@@ -370,16 +370,32 @@
     <t> Replaying management is the process of storing and presenting the necessary data that allows the human operator to observe and analyse the data necessary to understand the raised alert. </t>
 
        <section anchor="Arch_Collection" title = "Collection">
-        <t>Collection of network monitoring data involves the configuration of the monitoring data and the configuration of the collection infrastucture to receive the monitoring data produced by the network. </t>
+
+        <t>Collection of network monitoring data involves the configuration of
+        the monitoring data and the configuration of the collection infrastucture to
+        receive the monitoring data produced by the network. </t>
+
+        <t>Networks tend to produce extremely large amounts of monitoring data.
+        To preserve scaling and reduce costs, decisions need to be made on the duration
+        of retention of such data. A retention time need to be set on the raw data
+        produced by the collection system, in accordance to their utility for further used. This aspect will be elaborated in further sections.</t>
 
         </section>
 
        <section anchor="Arch_Aggregation" title = "Aggregation">
 
-        <t>Collection of network monitoring data involves the configuration of the monitoring data and the configuration of the collection infrastucture to receive the monitoring data produced by the network.
-        The aggregated data needs to be presented to the Service Disruption Detection component. This can be achieved in multiple ways, depending on the architecture of the SDD component.</t>
+        <t>Pre-processing of collected network monitoring data is usually
+        performed so as to produce input for the Service Disruption Detection
+        component. This can be achieved in multiple ways, depending on the architecture
+        of the SDD component. As an example, the granularity at which forwarding data is produced by the network
+        may be too high for the SDD algorithms, and instead be aggregated into a coarser dimension for SDD execution. </t>
+
+        <t>A retention time also needs to be decided upon for Aggregated data. Note that the retention time must be set carefully, in accordance with 
+        the replayability requirement discussed in <xref target="Arch_Replaying"/>.</t> 
 
         </section>
+
+
 
         <section anchor = "Arch_SDD" title="Service Disruption Detection">
 
@@ -393,25 +409,80 @@
             may hinder the scalability of the architecture. Second, the algorithms used to
             make a decision to alert the operator need to be designed in such a way that
             the operator can trust that a targeted Service Disruption will be detected (no
-            false negatives), while not spamming the operator with alerts that do not reflect an actual issue within the network.</t>
+            false negatives), while not spamming the operator with alerts that do not
+            reflect an actual issue within the network (false positives).</t>
 
-            <t>Two approaches are typically followed to present the data to the SDD system. Classically, the aggregated data can be stored in a database that is polled at regular intervals
-            by the SDD component for decision making. Alternatively, a streaming approach can be followed so as to XYZ.</t>
+            <t>Two approaches are typically followed to present the data to the
+            SDD system. Classically, the aggregated data can be stored in a database that
+            is polled at regular intervals by the SDD component for decision making.
+            Alternatively, a streaming approach can be followed so as to process the data
+            while they are being consumed from the collection component.</t>
 
-            <t>For SDD per-se, two families of algorithms can be decided upon. First, rule based approaches can be used, mimicking the process that human operators follow when looking at the data. </t>
-            <t>Profiles, Strategies, checks.</t>
-            <t>Second, machine learning tools can be used, with the aim of avoiding the efforts described above. </t>
+            <t>For SDD per-se, two families of algorithms can be decided upon.
+            First, rule based approaches can be used, mimicking the process that human
+            operators follow when looking at the data. Machine Learning based approaches are also possible. </t>
 
-            <t>Pros and Cons. RB requires work and parametrization. It cannot detect SDD that the operator didn't think about beforhand. ML requires less work but, if not training can be performed beforehand, or
-            training cannot be generalized, it requires a long time of running before being efficient, typically crippling the system with false positives/false negatives. There is no perfect choice to make here. </t>
+            
+            <section anchor = "Modeling" title="Modeling">
+
+            <t>Some input to SDD is made of established knowledge of the
+            network that is unrelated to the dimensions according to which outlier
+            detection is performed. For example, the knowledge of the network
+            infrastructure may be required to perform some service disruption detection.
+            Such data need to be rendered accessible and updatable for use by SDD.  They
+            may come from inventories, or automated gathering of data from the network
+            itself.  </t>
+
+            </section>
+    
+            <section anchor = "Profiling" title="Profiling">
+
+             <t>As rules cannot be crafted specifically for each customer, they need to be defined according to pre-established service profiles. 
+            Processing of monitoring data can be performed in order to associate each service with a profile. External knowledge on the customer can also help in associating
+            a service with a profile.</t>
+
+             <t>Profiling may have to be re-performed in order to capture a change in customer behaviour. This needs to be orchestrated. </t>
+           
+            </section>
+
+            <section anchor = "Strategies" title="Strategies">
+
+            <t>For a profile, a set of strategies is defined. Each strategy
+            captures one approach to look at the data (as a human operator does) to observe
+            if an abnormal situation is arising. Strategies are defined as a function of
+            observed outliers as defined in <xref target="Outlier_Detection"/>.  </t>
+
+            <t>When one of the strategies applied for a profile detects a
+            concerning outlier or combined outlier, an alert needs to be raised. </t>
+
+            <t>Depending on the implementation of the architecture, a scheduler may be needed in order to orchestrate the evaluation of the alert levels 
+            for each strategy applied for a profile, for all service instances associated with such profile.</t>
+
+            </section>
+            
+
+            <section anchor = "RB_vs_ML" title="Machine Learning approaches">
+            
+            <t>Machine learning tools can be used, with the aim of avoiding the efforts described above.</t>
+
+            <t>TODO PFR RB requires work and parametrization. It cannot
+            detect SDD that the operator didn't think about beforhand. ML requires less
+            work but, if not training can be performed beforehand, or training cannot be
+            generalized, it requires a long time of running before being efficient,
+            typically crippling the system with false positives/false negatives. There is
+            no perfect choice to make here. </t>
+
+            </section>
 
             </section>
 
 
         <section anchor="Arch_Alerting" title= "Alerting">
 
-            <t>When the SDD component decides that a service is undergoing a disruption, a notification needs to be made to the operation management system of the service provider.
-            Multiple practical aspects need to be taken into account in this component. </t>
+            <t>When the SDD component decides that a service is undergoing a
+            disruption, a notification needs to be made to the operation management system
+            of the service provider.  Multiple practical aspects need to be taken into
+            account in this component. </t>
 
             <t>When the issue lasts longer than the interval at which the SDD
             component runs, the alerting mechanism should not create multiple tickets to
@@ -422,7 +493,20 @@
         </section>
 
 
+        <section anchor="Arch_Replaying" title= "Replaying">
+        
+            <t>When a service disruption has been detected, it is essential for the human operator to be able to analyse the data which led to the raising of an Alert. It is thus important
+            that a SSDS preserves both the data which led to the creation of the alert as well as human understandable information on why the data led to the raising of an alert. </t>
 
+            <t>In early stages of operations or when experimenting with a SDDS,
+            it is common that the parameters used for SDD are to be fined tuned. This
+            process is facilitated by designing the SDDS architecture in a way that allows
+            to rerun the SDD algorithms on the same input. </t>
+
+
+
+
+        </section>
     </section>
 
     <section anchor="Implementation" title="Implementation Status">
