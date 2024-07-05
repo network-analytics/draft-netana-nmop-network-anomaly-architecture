@@ -143,7 +143,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    When operational or configurational changes in connectivity services
    are happening, the objective therefore is to detect interruption at
-   network operation faster then the users using those connectivity
+   network operation faster than the users using those connectivity
    services.
 
    In order to achieve this objective, automation in network monitoring
@@ -153,7 +153,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    This automation needs to monitor network changes holistically by
    monitoring all 3 network planes simultaneously for a given
-   connectivity service and detect wherever that change is service
+   connectivity service and detect whether that change is service
    disruptive, received packets are no longer forwarded to the desired
    destination, or not.  A change in control and management plane
    indicate a network topology change.  Where a change in the forwarding
@@ -172,8 +172,8 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    Since changes in networks are happening all the time due to the vast
    amount of dependencies, a scoring system is needed to indicate
-   wherever the change is disruptive, the amount of transport sessions,
-   flows, are affected and wherever such interruptions are usual or
+   whether the change is disruptive, the amount of transport sessions,
+   flows, are affected and whether such interruptions are usual or
    exceptional.
 
 1.2.  Scope
@@ -181,12 +181,12 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    Such objectives can be achieved by applying checks on network
    modelled time series data containing semantics describing their
    dependencies across network planes.  These checks can be based on
-   domain knowledge, in essence how networks work and on outlier
-   detection techniques when measurements are changing over time due to
-   human factors.
+   domain knowledge, in essence, how networks should work, or on outlier
+   detection techniques that identify measurements deviating
+   significantly from the norm due to human factors.
 
    The described scope does not take the connectivity service intend
-   into account nor does it verify wherever the intend is being achieved
+   into account nor does it verify whether the intend is being achieved
    all the time.  Changes to the service intend causing service
    disruptions are therefore considered service disruptions where on
    monitoring systems taking the intend into account this is considered
