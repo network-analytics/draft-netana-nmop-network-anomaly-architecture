@@ -353,7 +353,7 @@
         delve into considerations to be made when designing such componenents in an implementation. </t>
 
       <t>
-        The architecture is illustrated in Figure XYZ and its main components are described in the following subsections. 
+        The architecture is illustrated in <xref target="fig_arch"/> and its main components are described in the following subsections. 
       </t>
 
       <figure anchor="fig_arch" align="center"
@@ -413,14 +413,6 @@
         
       </artwork>
     </figure>
-
-     
-      <t> Alerting is the process of notifying an operator that the system has detected a service
-        disruption, and that action may have to be taken to resolve an ongoing issue. </t>
-      <t> Replaying management is the process of storing and presenting the necessary data that
-        allows the human operator to observe and analyse the data necessary to understand the raised
-        alert. </t>
-
       
 
 
@@ -439,6 +431,12 @@
             Based on this service description and potential preliminary service profiling, a configuration of
             the Service Disruption Detection is produced. It defines the set of approaches that need to be applied
             to perform SDD, as well as parameters that are to be set when executing the algorithms performing SDD per se. 
+          </t>
+
+          <t>
+            As the service lives on, the configuration may be adapted as a result of an evolution of the profiling being performed, 
+            as the result of a post mortem analysis being produced as a result of an event impacting the service, or the occurence of
+            false positives being raised by the alerting system.             
           </t>
         
         </section>
@@ -525,9 +523,6 @@
             Processing of monitoring data can be performed in order to associate each service with a
             profile. External knowledge on the customer can also help in associating
             a service with a profile.</t>
-
-          <t>Profiling may have to be re-performed in order to capture a change in customer
-            behaviour. This needs to be orchestrated. </t>
 
         </section>
 
