@@ -572,11 +572,13 @@
 
         </section>
 
-        <section anchor="Storage" title = "Storage">
+        <section anchor="Storage" title="Storage">
           <t>
-            Storage may be required to execute SDD, as some algorithms may be relying on historical (aggregated) monitoring data in order
-            to detect anomalies. Careful considerations need to be made on the level at which such data is stored, as slow access to such data 
-            may be detrimental to the reactivity of the system. 
+            Storage may be required to execute SDD, as some algorithms may be relying on historical
+            (aggregated) monitoring data in order
+            to detect anomalies. Careful considerations need to be made on the level at which such
+            data is stored, as slow access to such data
+            may be detrimental to the reactivity of the system.
           </t>
 
         </section>
@@ -613,7 +615,8 @@
           to rerun the SDD algorithms on the same input. </t>
 
         <t>
-          Data retention, as well as its level, need to be defined in order not to sacrifice the ability of replaying SDD
+          Data retention, as well as its level, need to be defined in order not to sacrifice the
+          ability of replaying SDD
           execution for the sake of improving its accuracry.
         </t>
 
@@ -630,6 +633,13 @@
 
     <section anchor="Security" title="Security Considerations">
       <t>TBD</t>
+    </section>
+
+    <section anchor="Contributors" title="Contributors">
+      <t>
+          Alex Huang Feng. 
+      </t>
+
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">

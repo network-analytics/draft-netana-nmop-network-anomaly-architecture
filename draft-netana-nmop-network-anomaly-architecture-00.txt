@@ -31,11 +31,11 @@ Discussion Venues
    Discussion of this document takes place on the Operations and
    Management Area Working Group Working Group mailing list
    (nmop@ietf.org), which is archived at
-   https://mailarchive.ietf.org/arch/browse/nmop/.
+   https://mailarchive.ietf.org/arch/browse/nmop/ .
 
    Source for this draft and an issue tracker can be found at
    https://github.com/network-analytics/draft-netana-nmop-network-
-   anomaly-architecture/.
+   anomaly-architecture/ .
 
 Status of This Memo
 
@@ -90,21 +90,21 @@ Table of Contents
      2.3.  Knowledge Based Detection . . . . . . . . . . . . . . . .   6
      2.4.  Data Mesh . . . . . . . . . . . . . . . . . . . . . . . .   7
    3.  Elements of the Architecture  . . . . . . . . . . . . . . . .   7
-     3.1.  Collection  . . . . . . . . . . . . . . . . . . . . . . .   8
-     3.2.  Aggregation . . . . . . . . . . . . . . . . . . . . . . .   8
-     3.3.  Service Disruption Detection  . . . . . . . . . . . . . .   8
-     3.4.  Alerting  . . . . . . . . . . . . . . . . . . . . . . . .  10
-     3.5.  Replaying . . . . . . . . . . . . . . . . . . . . . . . .  10
-   4.  Implementation Status . . . . . . . . . . . . . . . . . . . .  11
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  11
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  11
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
-
-
-
+     3.1.  Service Inventory . . . . . . . . . . . . . . . . . . . .   9
+     3.2.  SDD Configuration . . . . . . . . . . . . . . . . . . . .   9
+     3.3.  Collection  . . . . . . . . . . . . . . . . . . . . . . .   9
+     3.4.  Aggregation . . . . . . . . . . . . . . . . . . . . . . .   9
+     3.5.  Service Disruption Detection  . . . . . . . . . . . . . .  10
+     3.6.  Alerting  . . . . . . . . . . . . . . . . . . . . . . . .  12
+     3.7.  Replaying . . . . . . . . . . . . . . . . . . . . . . . .  12
+   4.  Implementation Status . . . . . . . . . . . . . . . . . . . .  12
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
+   6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  13
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  13
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  13
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
 
 
 
@@ -215,7 +215,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    Broker.
 
    Additionally it makes use of the terms defined in
-   [I-D.ietf-nmop-terminology].
+   [I-D.ietf-nmop-terminology] .
 
 
 
@@ -227,7 +227,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
 
    The following terms are used as defined in
-   [I-D.ietf-nmop-terminology]:
+   [I-D.ietf-nmop-terminology] :
 
    *  System
 
@@ -366,7 +366,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
       behavior of packets and its data-plane context.  For example,
       dropped packet count modelled in IPFIX entity
       forwardingStatus(IE89) [RFC7270] and packetDeltaCount(IE2)
-      [RFC5102] and exportet with IPFIX [RFC7011].
+      [RFC5102] and exportet with IPFIX [RFC7011] .
 
 2.4.2.  Analytical Observed Symptoms
 
@@ -377,13 +377,13 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    An architecture aimed at detecting service disruptions is typically
    built upon multiple components, for which design choices need to be
-   made.
+   made.  In this section, we describe the main components of the
+   architecture, and delve into considerations to be made when designing
+   such componenents in an implementation.
 
-   Collection is the process of extracting monitoring data form the
-   network.
+   The architecture is illustrated in Figure 1 and its main components
+   are described in the following subsections.
 
-   Aggregation is the process of producing data upon which detection of
-   a service disruption can be performed, based on the collected data.
 
 
 
@@ -394,32 +394,117 @@ Graf, et al.            Expires 24 December 2024                [Page 7]
 Internet-Draft     Network Anomaly Detection Framework         June 2024
 
 
-   Service Disruption Detection is the process which actually "runs the
-   maths" on the produced data in order to decide whether a service
-   disruption is taking place.
+        +---------+  +---------+                     +-------------------+
+        |Service  |  |  Post   |                     | Alert and         |
+    --- |Inventory|  |  Mortem | <-----|             | Problem Management|
+   |    |         |  |  System |       |             | System            |
+   |    +---------+  +---------+       |             +-------------------+
+   |        |             |            |                       ^   Stream
+   |        |             |            |                       |
+   |        |             |            |             +-------------------+
+   |        |             |            |             |Message Broker     |
+   |        |             |            |------------ |Analytical         |
+   |        | Profile     | Fine                     |Metrics            |
+   |        | and         | Tune                     +-------------------+
+   |        | Generate    | Config                             ^   Stream
+   |        | Config      |                                    |
+   |        |             |                          +-------------------+
+   |        |             |                          | Alert Aggregation |
+   |        |             |                          | for Anomaly       |
+   |        |             |                          | Detection         |
+   |        |             |                          +-------------------+
+   |        |             |                                 ^  ^  ^ Stream
+   |        v             v                                 |  |  |
+   |     +--------------------+                      +-------------------+     +--------+
+   |     |                    | Schedule Detection   |Network Anomaly    |     |        |
+   |     |   Configuration    | -------------------> |Detection          |<--- | Storage|
+   |     |                    |                      |                   |     |        |
+   |     +--------------------+                      +-------------------+     +--------+
+   |                                                      ^ ^      ^ ^ ^ Stream    ^
+   |                                                      | |      | | |           |
+   |                                                 +--------+ +--------+         |
+   |                                                 |Network | | Data   |         |
+   | ----------------------------------------------> |Model   | | Pre    |  ------
+                                                     |        | | Process|
+                                                     +--------+ +--------+
+                                                            ^  ^  ^ Stream
+                                                            |  |  |
+                                                     +-------------------+
+                                                     | Message Broker    |
+                                                     | Operational       |
+                                                     | Metrics           |
+                                                     +-------------------+
+                                                            ^  ^  ^ Stream
+                                                            |  |  |
+  +-------------------+    +-------------------+     +-------------------+
+  |     Manage        |    |                   | --> | Network Telemetry |
+  | Network Telemetry | -> |  Network Node     | --> | Data Collection   |
+  | Subscription      |    |                   | --> |                   |
+  +-------------------+    +-------------------+     +-------------------+
 
-   Alerting is the process of notifying an operator that the system has
-   detected a service disruption, and that action may have to be taken
-   to resolve an ongoing issue.
 
-   Replaying management is the process of storing and presenting the
-   necessary data that allows the human operator to observe and analyse
-   the data necessary to understand the raised alert.
 
-3.1.  Collection
 
-   Collection of network monitoring data involves the configuration of
-   the monitoring data and the configuration of the collection
-   infrastucture to receive the monitoring data produced by the network.
+Graf, et al.            Expires 24 December 2024                [Page 8]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+         Figure 1: Service Disruption Detection Architecture
+
+3.1.  Service Inventory
+
+   A service inventory is used to obtain a description of the services
+   for which Anomaly Detection is to be performed.  A service profiling
+   process may be executed on the service in order to define a
+   configuration of the service disrutpion detection approach and
+   parameters to be used.
+
+3.2.  SDD Configuration
+
+   Based on this service description and potential preliminary service
+   profiling, a configuration of the Service Disruption Detection is
+   produced.  It defines the set of approaches that need to be applied
+   to perform SDD, as well as parameters that are to be set when
+   executing the algorithms performing SDD per se.
+
+   As the service lives on, the configuration may be adapted as a result
+   of an evolution of the profiling being performed, as the result of a
+   post mortem analysis being produced as a result of an event impacting
+   the service, or the occurence of false positives being raised by the
+   alerting system.
+
+3.3.  Collection
+
+   Collection of network monitoring data involves the management of the
+   subscriptions to network telemetry on nodes of the network, and the
+   configuration of the collection infrastucture to receive the
+   monitoring data produced by the network.
+
+   The monitoring data produced by the collection infrastructure is then
+   streamed through a message broker system.  for further processing.
 
    Networks tend to produce extremely large amounts of monitoring data.
    To preserve scaling and reduce costs, decisions need to be made on
-   the duration of retention of such data.  A retention time need to be
-   set on the raw data produced by the collection system, in accordance
-   to their utility for further used.  This aspect will be elaborated in
+   the duration of retention of such data in storage, and at which level
+   of storage they need to be kept.  A retention time need to be set on
+   the raw data produced by the collection system, in accordance to
+   their utility for further used.  This aspect will be elaborated in
    further sections.
 
-3.2.  Aggregation
+3.4.  Aggregation
+
+   Aggregation is the process of producing data upon which detection of
+   a service disruption can be performed, based on collected network
+   monitoring data.
+
+
+
+
+Graf, et al.            Expires 24 December 2024                [Page 9]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
 
    Pre-processing of collected network monitoring data is usually
    performed so as to produce input for the Service Disruption Detection
@@ -431,24 +516,14 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    A retention time also needs to be decided upon for Aggregated data.
    Note that the retention time must be set carefully, in accordance
-   with the replayability requirement discussed in Section 3.5.
+   with the replayability requirement discussed in Section 3.7 .
 
-3.3.  Service Disruption Detection
+3.5.  Service Disruption Detection
 
    Service Disruption Detection processes the aggregated network data in
    order to decide whether a service is degraged to the point where the
    network operators need to be alerted of an ongoing problem within the
    network.
-
-
-
-
-
-
-Graf, et al.            Expires 24 December 2024                [Page 8]
-
-Internet-Draft     Network Anomaly Detection Framework         June 2024
-
 
    Two key aspects need to be considered when designed the SDD
    component.  First, the way the data is being processed needs to be
@@ -472,7 +547,22 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    human operators follow when looking at the data.  Machine Learning
    based approaches are also possible.
 
-3.3.1.  Modeling
+
+
+
+
+
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024               [Page 10]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+3.5.1.  Modeling
 
    Some input to SDD is made of established knowledge of the network
    that is unrelated to the dimensions according to which outlier
@@ -482,7 +572,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    for use by SDD.  They may come from inventories, or automated
    gathering of data from the network itself.
 
-3.3.2.  Profiling
+3.5.2.  Profiling
 
    As rules cannot be crafted specifically for each customer, they need
    to be defined according to pre-established service profiles.
@@ -490,28 +580,13 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    each service with a profile.  External knowledge on the customer can
    also help in associating a service with a profile.
 
-   Profiling may have to be re-performed in order to capture a change in
-   customer behaviour.  This needs to be orchestrated.
-
-
-
-
-
-
-
-
-
-Graf, et al.            Expires 24 December 2024                [Page 9]
-
-Internet-Draft     Network Anomaly Detection Framework         June 2024
-
-
-3.3.3.  Strategies
+3.5.3.  Strategies
 
    For a profile, a set of strategies is defined.  Each strategy
    captures one approach to look at the data (as a human operator does)
    to observe if an abnormal situation is arising.  Strategies are
-   defined as a function of observed outliers as defined in Section 2.2.
+   defined as a function of observed outliers as defined in Section 2.2
+   .
 
    When one of the strategies applied for a profile detects a concerning
    outlier or combined outlier, an alert needs to be raised.
@@ -521,7 +596,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    for each strategy applied for a profile, for all service instances
    associated with such profile.
 
-3.3.4.  Machine Learning approaches
+3.5.4.  Machine Learning approaches
 
    Machine learning tools can be used, with the aim of avoiding the
    efforts described above.
@@ -533,7 +608,25 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    being efficient, typically crippling the system with false positives/
    false negatives.  There is no perfect choice to make here.
 
-3.4.  Alerting
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024               [Page 11]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
+3.5.5.  Storage
+
+   Storage may be required to execute SDD, as some algorithms may be
+   relying on historical (aggregated) monitoring data in order to detect
+   anomalies.  Careful considerations need to be made on the level at
+   which such data is stored, as slow access to such data may be
+   detrimental to the reactivity of the system.
+
+3.6.  Alerting
 
    When the SDD component decides that a service is undergoing a
    disruption, a notification needs to be made to the operation
@@ -546,7 +639,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    issue.  However, the information provided along with the alert should
    be kept up to date during the full duration of the issue.
 
-3.5.  Replaying
+3.7.  Replaying
 
    When a service disruption has been detected, it is essential for the
    human operator to be able to analyse the data which led to the
@@ -555,17 +648,14 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    understandable information on why the data led to the raising of an
    alert.
 
-
-
-Graf, et al.            Expires 24 December 2024               [Page 10]
-
-Internet-Draft     Network Anomaly Detection Framework         June 2024
-
-
    In early stages of operations or when experimenting with a SDDS, it
    is common that the parameters used for SDD are to be fined tuned.
    This process is facilitated by designing the SDDS architecture in a
    way that allows to rerun the SDD algorithms on the same input.
+
+   Data retention, as well as its level, need to be defined in order not
+   to sacrifice the ability of replaying SDD execution for the sake of
+   improving its accuracry.
 
 4.  Implementation Status
 
@@ -573,18 +663,33 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
    This section records the status of known implementations.
 
+
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024               [Page 12]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
+
 5.  Security Considerations
 
    TBD
 
-6.  Acknowledgements
+6.  Contributors
+
+   Alex Huang Feng.
+
+7.  Acknowledgements
 
    The authors would like to thank TBD for their review and valuable
    comments.  TBD for review and contributing code.
 
-7.  References
+8.  References
 
-7.1.  Normative References
+8.1.  Normative References
 
    [I-D.ietf-nmop-terminology]
               Davis, N., Farrel, A., Graf, T., Wu, Q., and C. Yu, "Some
@@ -608,20 +713,22 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
               DOI 10.17487/RFC9232, May 2022,
               <https://www.rfc-editor.org/info/rfc9232>.
 
-7.2.  Informative References
-
-
-
-
-Graf, et al.            Expires 24 December 2024               [Page 11]
-
-Internet-Draft     Network Anomaly Detection Framework         June 2024
-
+8.2.  Informative References
 
    [Deh22]    Dehghani, Z., "Data Mesh", O'Reilly Media,
               ISBN 9781492092391, March 2022,
               <https://www.oreilly.com/library/view/data-
               mesh/9781492092384/>.
+
+
+
+
+
+
+Graf, et al.            Expires 24 December 2024               [Page 13]
+
+Internet-Draft     Network Anomaly Detection Framework         June 2024
+
 
    [RFC4364]  Rosen, E. and Y. Rekhter, "BGP/MPLS IP Virtual Private
               Networks (VPNs)", RFC 4364, DOI 10.17487/RFC4364, February
@@ -666,15 +773,17 @@ Authors' Addresses
    Binzring 17
    CH-8045 Zurich
    Switzerland
+   Email: thomas.graf@swisscom.com
 
 
 
-Graf, et al.            Expires 24 December 2024               [Page 12]
+
+
+
+
+Graf, et al.            Expires 24 December 2024               [Page 14]
 
 Internet-Draft     Network Anomaly Detection Framework         June 2024
-
-
-   Email: thomas.graf@swisscom.com
 
 
    Wanting Du
@@ -725,4 +834,7 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
 
 
 
-Graf, et al.            Expires 24 December 2024               [Page 13]
+
+
+
+Graf, et al.            Expires 24 December 2024               [Page 15]
