@@ -359,6 +359,7 @@
       <figure anchor="fig_arch" align="center"
       title="Service Disruption Detection Architecture">
       <artwork align="center">
+         <![CDATA[
                                                                                                         
         +---------+  +---------+                     +-------------------+                                 
         |Service  |  |  Post   |                     | Alert and         |                                 
@@ -408,7 +409,7 @@
   | Subscription      |    |                   | --> |                   |                                 
   +-------------------+    +-------------------+     +-------------------+      
 
-
+  ]]>
         
       </artwork>
     </figure>
