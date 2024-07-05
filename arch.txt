@@ -1,0 +1,48 @@
+                                                                                                        
+      +---------+  +---------+                     +-------------------+                                 
+      |Service  |  |  Post   |                     | Alert and         |                                 
+  --- |Inventory|  |  Mortem | <-----|             | Problem Management|                                 
+ |    |         |  |  System |       |             | System            |                                 
+ |    +---------+  +---------+       |     -       +-------------------+                                 
+ |        |             |            |                       ^   Stream                                  
+ |        |             |            |                       |                                           
+ |        |             |            |             +-------------------+                                 
+ |        |             |            |             |Message Broker     |                                 
+ |        |             |            |------------ |Analytical         |                                 
+ |        | Profile     | Fine                     |Metrics            |                                
+ |        | and         | Tune                     +-------------------+                               
+ |        | Generate    | Config                             ^   Stream                                  
+ |        | Config      |                                    |                                           
+ |        |             |                          +-------------------+                                 
+ |        |             |                          | Alert Aggregation |                                 
+ |        |             |                          | for Anomaly       |                                 
+ |        |             |                          | Detection         |                                 
+ |        |             |                          +-------------------+                                 
+ |        |             |                                 ^  ^  ^ Stream                                 
+ |        v             v                                 |  |  |                                        
+ |     +--------------------+                      +-------------------+     +--------+                  
+ |     |                    | Schedule Detection   |Network Anomaly    |     |        |                  
+ |     |   Configuration    | -------------------> |Detection          |<--- | Storage|                  
+ |     |                    |                      |                   |     |        |                  
+ |     +--------------------+                      +-------------------+     +--------+                  
+ |                    -                                 ^ ^      ^ ^ ^ Stream    ^                       
+ |                                                      | |      | | |           |                       
+ |                                                 +--------+ +--------+         |                       
+ |                                                 |Network | | Data   |         |                       
+ | ----------------------------------------------> |Model   | | Pre    |  ------                         
+                                                   |        | | Process|                                 
+                -                                  +--------+ +--------+                                 
+                                                          ^  ^  ^ Stream                                 
+                      -                                   |  |  |                                        
+                                                   +-------------------+                                 
+                                                   | Message Broker    |                                 
+                                                   | Operational       |                                 
+                                                   | Metrics           |                                 
+                                                   +-------------------+                                 
+                                                          ^  ^  ^ Stream                                 
+                                                          |  |  |                                        
++-------------------+    +-------------------+     +-------------------+                                 
+|                   |    |                   | --> | Network Telemetry |                                 
+| Network Telemetry | -> |  Network Node     | --> | Data Collection   |                                 
+| Subscription      |    |                   | --> |                   |                                 
++-------------------+    +-------------------+     +-------------------+                                 
