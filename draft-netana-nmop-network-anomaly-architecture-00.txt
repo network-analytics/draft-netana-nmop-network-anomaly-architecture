@@ -214,9 +214,9 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    to centrally search semantics for information across a Message
    Broker.
 
-   Additionally it makes use of the terms defined in
-   [I-D.ietf-nmop-terminology] .
-
+   Service Disruption Detection (SDD): The process of detecting a
+   service degradation by discovering anomalies in network monitoring
+   data.
 
 
 
@@ -225,6 +225,12 @@ Graf, et al.            Expires 24 December 2024                [Page 4]
 
 Internet-Draft     Network Anomaly Detection Framework         June 2024
 
+
+   Service Disruption Detection System (SDDS): A system allowing to
+   perform SDD.
+
+   Additionally it makes use of the terms defined in
+   [I-D.ietf-nmop-terminology] .
 
    The following terms are used as defined in
    [I-D.ietf-nmop-terminology] :
@@ -266,12 +272,6 @@ Internet-Draft     Network Anomaly Detection Framework         June 2024
    *  Transient
 
    *  Intermittent
-
-
-
-
-
-
 
 
 
