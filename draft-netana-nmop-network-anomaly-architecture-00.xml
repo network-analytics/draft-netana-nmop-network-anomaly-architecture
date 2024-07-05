@@ -349,16 +349,16 @@
     <section anchor="Elements_of_the_Architecture" title="Elements of the Architecture">
 
       <t>An architecture aimed at detecting service disruptions is typically
-        built upon multiple components, for which design choices need to be made. In this section, we describe the main components of the architecture, and 
+        built upon multiple components, for which design choices need to be made. In this section,
+        we describe the main components of the architecture, and
         delve into considerations to be made when designing such componenents in an implementation. </t>
 
-      <t>
-        The architecture is illustrated in <xref target="fig_arch"/> and its main components are described in the following subsections. 
-      </t>
+      <t> The architecture is illustrated in <xref target="fig_arch" /> and its main components are
+        described in the following subsections. </t>
 
       <figure anchor="fig_arch" align="center"
-      title="Service Disruption Detection Architecture">
-      <artwork align="center">
+        title="Service Disruption Detection Architecture">
+        <artwork align="center">
          <![CDATA[
                                                                                                         
         +---------+  +---------+                     +-------------------+                                 
@@ -412,46 +412,59 @@
   ]]>
         
       </artwork>
-    </figure>
-      
+      </figure>
 
 
-        <section anchor = "Arch_Inventory" title = "Service Inventory">
-          <t>
-            A service inventory is used to obtain a description of the services for which Anomaly
-            Detection is to be performed. A service profiling process may be executed on the service in
-            order to define a configuration of the service disrutpion detection approach and parameters
-            to be used.
-          </t>
-        </section>
+      <section anchor="Arch_Inventory" title="Service Inventory">
+        <t>
+          A service inventory is used to obtain a description of the services for which Anomaly
+          Detection is to be performed. A service profiling process may be executed on the service
+          in
+          order to define a configuration of the service disrutpion detection approach and
+          parameters
+          to be used.
+        </t>
+      </section>
 
-        <section anchor = "Arch_Configuration" title = "SDD Configuration">
+      <section anchor="Arch_Configuration" title="SDD Configuration">
 
-          <t>
-            Based on this service description and potential preliminary service profiling, a configuration of
-            the Service Disruption Detection is produced. It defines the set of approaches that need to be applied
-            to perform SDD, as well as parameters that are to be set when executing the algorithms performing SDD per se. 
-          </t>
+        <t>
+          Based on this service description and potential preliminary service profiling, a
+          configuration of
+          the Service Disruption Detection is produced. It defines the set of approaches that need
+          to be applied
+          to perform SDD, as well as parameters that are to be set when executing the algorithms
+          performing SDD per se.
+        </t>
 
-          <t>
-            As the service lives on, the configuration may be adapted as a result of an evolution of the profiling being performed, 
-            as the result of a post mortem analysis being produced as a result of an event impacting the service, or the occurence of
-            false positives being raised by the alerting system.             
-          </t>
-        
-        </section>
-  
+        <t>
+          As the service lives on, the configuration may be adapted as a result of an evolution of
+          the profiling being performed,
+          as the result of a post mortem analysis being produced as a result of an event impacting
+          the service, or the occurence of
+          false positives being raised by the alerting system.
+        </t>
+
+      </section>
 
 
       <section anchor="Arch_Collection" title="Collection">
 
-        <t>Collection of network monitoring data involves the configuration of
-          the monitoring data and the configuration of the collection infrastucture to
+        <t>Collection of network monitoring data involves the management of the subscriptions to
+          network telemetry
+          on nodes of the network, and the configuration of the collection infrastucture to
           receive the monitoring data produced by the network. </t>
+
+        <t>
+          The monitoring data produced by the collection infrastructure is then streamed through a
+          message broker system.
+          for further processing.
+        </t>
 
         <t>Networks tend to produce extremely large amounts of monitoring data.
           To preserve scaling and reduce costs, decisions need to be made on the duration
-          of retention of such data. A retention time need to be set on the raw data
+          of retention of such data in storage, and at which level of storage they need to be kept.
+          A retention time need to be set on the raw data
           produced by the collection system, in accordance to their utility for further used. This
           aspect will be elaborated in further sections.</t>
 
@@ -463,12 +476,13 @@
           Aggregation is the process of producing data upon which detection of a service disruption
           can be performed, based on collected network monitoring data.
         </t>
-  
+
         <t>Pre-processing of collected network monitoring data is usually
           performed so as to produce input for the Service Disruption Detection
           component. This can be achieved in multiple ways, depending on the architecture
           of the SDD component. As an example, the granularity at which forwarding data is produced
-          by the network may be too high for the SDD algorithms, and instead be aggregated into a coarser dimension
+          by the network may be too high for the SDD algorithms, and instead be aggregated into a
+          coarser dimension
           for SDD execution. </t>
 
         <t>A retention time also needs to be decided upon for Aggregated data. Note that the
@@ -558,6 +572,15 @@
 
         </section>
 
+        <section anchor="Storage" title = "Storage">
+          <t>
+            Storage may be required to execute SDD, as some algorithms may be relying on historical (aggregated) monitoring data in order
+            to detect anomalies. Careful considerations need to be made on the level at which such data is stored, as slow access to such data 
+            may be detrimental to the reactivity of the system. 
+          </t>
+
+        </section>
+
       </section>
 
 
@@ -588,6 +611,11 @@
           it is common that the parameters used for SDD are to be fined tuned. This
           process is facilitated by designing the SDDS architecture in a way that allows
           to rerun the SDD algorithms on the same input. </t>
+
+        <t>
+          Data retention, as well as its level, need to be defined in order not to sacrifice the ability of replaying SDD
+          execution for the sake of improving its accuracry.
+        </t>
 
 
       </section>
