@@ -87,25 +87,25 @@ Table of Contents
    2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   4
      2.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
      2.2.  Outlier Detection . . . . . . . . . . . . . . . . . . . .   6
-     2.3.  Knowledge Based Detection . . . . . . . . . . . . . . . .   6
+     2.3.  Knowledge Based Detection . . . . . . . . . . . . . . . .   7
      2.4.  Data Mesh . . . . . . . . . . . . . . . . . . . . . . . .   7
    3.  Elements of the Architecture  . . . . . . . . . . . . . . . .   8
      3.1.  Service Inventory . . . . . . . . . . . . . . . . . . . .   9
-     3.2.  SDD Configuration . . . . . . . . . . . . . . . . . . . .   9
-     3.3.  Operational Data Collection . . . . . . . . . . . . . . .   9
+     3.2.  SDD Configuration . . . . . . . . . . . . . . . . . . . .  10
+     3.3.  Operational Data Collection . . . . . . . . . . . . . . .  10
      3.4.  Operational Data Aggregation  . . . . . . . . . . . . . .  10
-     3.5.  Service Disruption Detection  . . . . . . . . . . . . . .  10
-     3.6.  Alerting  . . . . . . . . . . . . . . . . . . . . . . . .  12
-     3.7.  Postmortem  . . . . . . . . . . . . . . . . . . . . . . .  12
+     3.5.  Service Disruption Detection  . . . . . . . . . . . . . .  11
+     3.6.  Alerting  . . . . . . . . . . . . . . . . . . . . . . . .  13
+     3.7.  Postmortem  . . . . . . . . . . . . . . . . . . . . . . .  13
      3.8.  Replaying . . . . . . . . . . . . . . . . . . . . . . . .  14
    4.  Implementation Status . . . . . . . . . . . . . . . . . . . .  14
    5.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
-   6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  14
-   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  14
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  14
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  15
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
+   6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  15
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  15
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  15
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  16
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  17
 
 
 
@@ -267,12 +267,12 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
    *  Intermittent
 
-   The following terms are used as defined in
-   [I-D.netana-nmop-network-anomaly-lifecycle] :
+   Figure 2 in Section 3 of [I-D.ietf-nmop-terminology] shows
+   characteristics of observed operational network telemetry metrics.
 
-   *  False Positive
-
-   *  False Negative
+   Figure 4 in Section 3 of [I-D.ietf-nmop-terminology] shows
+   relationships between, state, relevant state, problem, symptom, cause
+   and alert.
 
 
 
@@ -281,6 +281,16 @@ Graf, et al.             Expires 8 January 2025                 [Page 5]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
+
+   Figure 5 in Section 3 of [I-D.ietf-nmop-terminology] shows
+   relationships between problem, symptom, cause and root cause.
+
+   The following terms are used as defined in
+   [I-D.netana-nmop-network-anomaly-lifecycle] :
+
+   *  False Positive
+
+   *  False Negative
 
 2.2.  Outlier Detection
 
@@ -317,6 +327,17 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
       amount of network paths and interface state changes matches the
       time range when the forwarded packet volume decreases as a group.
 
+
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                 [Page 6]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    For each outlier a score between 0 and 1 is being calculated.  The
    higher the value, the higher the probability that the observed data
    point is an outlier.  Anomaly detection: A survey [VAP09] gives
@@ -330,13 +351,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    Control Plane and Forwarding plane.  A component can relate to a
    physical, virtual, configurational entity or a sum of packets
    belonging to a flow being forwarded in a network.
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 6]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    Traditionally such relationships are established manually by a
    knowledged Network Engineer.
@@ -371,6 +385,15 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
       [RFC7854] and modeled in BGP [RFC4364]
 
    Forwarding Plane:  Time series data describing the forwarding
+
+
+
+
+Graf, et al.             Expires 8 January 2025                 [Page 7]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
       behavior of packets and its data-plane context.  For example,
       dropped packet count modelled in IPFIX entity
       forwardingStatus(IE89) [RFC7270] and packetDeltaCount(IE2)
@@ -385,14 +408,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    The obeserved symptoms are categorized into: action, reason, cause.
    Where action decribe the change in the network.  The reason explains
    why this changed occured and cause the trigger of that change.
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 7]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    Symptom definitions are described in Section 3 of
    [I-D.netana-nmop-network-anomaly-semantics] and symptom outlier
@@ -427,6 +442,14 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
     |      |            |                +-------------------+
     |      | Profile    | Fine           | Alert Aggregation | Store Label
     |      | and        | Tune           | for Anomaly       | ------------|
+
+
+
+Graf, et al.             Expires 8 January 2025                 [Page 8]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
     |      | Generate   | SDD            | Detection         |             |
     |      | SDD Config | Config         +-------------------+             |
     |      |            |                       ^  ^  ^ Stream             |
@@ -442,14 +465,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
     |                                    | Network |  Data   | Store       |
     |----------------------------------> |  Model  |  Aggr.  | ------------|
                                          |         | Process | Operational Data
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 8]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
                                          +---------+---------+
                                                 ^  ^  ^ Stream
                                                 |  |  |
@@ -477,6 +492,20 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    configuration of the service disruption detection approach and
    parameters to be used.
 
+
+
+
+
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                 [Page 9]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
 3.2.  SDD Configuration
 
    Based on this service list and potential preliminary service
@@ -497,14 +526,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    subscriptions to network telemetry on nodes of the network, and the
    configuration of the collection infrastructure to receive the
    monitoring data produced by the network.
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 9]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    The monitoring data produced by the collection infrastructure is then
    streamed through a message broker system. for further processing.
@@ -531,6 +552,16 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    the SDD algorithms, and instead be aggregated into a coarser
    dimension for SDD execution.
 
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 10]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    A retention time also needs to be decided upon for Aggregated data.
    Note that the retention time must be set carefully, in accordance
    with the replay ability requirement discussed in Section 3.8.
@@ -552,15 +583,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    while not spamming the operator with alerts that do not reflect an
    actual issue within the network (false positives) leading to alert
    fatigue.
-
-
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 10]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    Two approaches are typically followed to present the data to the SDD
    system.  Classically, the aggregated data can be stored in a database
@@ -584,6 +606,17 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    detection.  Such data need to be rendered accessible and updatable
    for use by SDD.  They may come from inventories, or automated
    gathering of data from the network itself.
+
+
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 11]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
 
 3.5.2.  Data Profiling
 
@@ -609,15 +642,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    for each strategy applied for a profile, for all service instances
    associated with such profile.
 
-
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 11]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
 3.5.4.  Machine Learning approaches
 
    Machine learning tools can be used, with the aim of avoiding the
@@ -638,6 +662,18 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    which such data is stored, as slow access to such data may be
    detrimental to the reactivity of the system.
 
+
+
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 12]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
 3.6.  Alerting
 
    When the SDD component decides that a service is undergoing a
@@ -653,25 +689,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 3.7.  Postmortem
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 12]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
    Network Anomaly
@@ -699,9 +716,19 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    Validation and refinement are performed during Postmortem.
 
    From an Anomaly Detection Lifecycle point of view as described in
-   [I-D.netana-nmop-network-anomaly-semantics], the Service Disruption
+   [I-D.netana-nmop-network-anomaly-lifecycle], the Service Disruption
    Detection Configuration evolves over time, iteratively, looping over
    three main phases: detection, validation and refinement.
+
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 13]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
 
    The Detection phase produces the alerts that are sent to the Alert
    and Problem Management System and at the same time it stores the
@@ -721,14 +748,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    about the update of the Service Disruption Detection configuration in
    order to improve the results of the detection (e.g. false positives,
    false negatives, accuracy of the boundaries, etc.).
-
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 13]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
 3.8.  Replaying
 
@@ -758,9 +777,19 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
    TBD
 
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 14]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
 6.  Contributors
 
-   Alex Huang Feng.
+   The authors would like to thank Alex Huang Feng and Vincenzo
+   Riccobene for their valuable contribution.
 
 7.  Acknowledgements
 
@@ -778,13 +807,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               Internet-Draft, draft-havel-nmop-digital-map-01, 5 July
               2024, <https://datatracker.ietf.org/doc/html/draft-havel-
               nmop-digital-map-01>.
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 14]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    [I-D.havel-nmop-digital-map-concept]
               Havel, O., Claise, B., de Dios, O. G., and T. Graf,
@@ -810,6 +832,16 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               <https://datatracker.ietf.org/doc/html/draft-netana-nmop-
               network-anomaly-lifecycle-02>.
 
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 15]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    [I-D.netana-nmop-network-anomaly-semantics]
               Graf, T., Du, W., Feng, A. H., Riccobene, V., and A.
               Roberto, "Semantic Metadata Annotation for Network Anomaly
@@ -834,14 +866,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 8.2.  Informative References
 
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 15]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
    [Deh22]    Dehghani, Z., "Data Mesh", O'Reilly Media,
               ISBN 9781492092391, March 2022,
               <https://www.oreilly.com/library/view/data-
@@ -861,6 +885,18 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               Protocol for the Exchange of Flow Information", STD 77,
               RFC 7011, DOI 10.17487/RFC7011, September 2013,
               <https://www.rfc-editor.org/info/rfc7011>.
+
+
+
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 16]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
 
    [RFC7270]  Yourtchenko, A., Aitken, P., and B. Claise, "Cisco-
               Specific Information Elements Reused in IP Flow
@@ -890,14 +926,6 @@ Authors' Addresses
    Binzring 17
    CH-8045 Zurich
    Switzerland
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 16]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
    Email: thomas.graf@swisscom.com
 
 
@@ -914,34 +942,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    Lyon
    France
    Email: pierre.francois@insa-lyon.fr
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

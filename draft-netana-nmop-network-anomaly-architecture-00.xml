@@ -248,6 +248,18 @@
             <t>Intermittent</t>
           </list></t>
 
+        <t>Figure 2 in <xref section="3" sectionFormat="of"
+        target="I-D.ietf-nmop-terminology"/> shows characteristics of observed
+        operational network telemetry metrics.</t>
+
+        <t>Figure 4 in <xref section="3" sectionFormat="of"
+        target="I-D.ietf-nmop-terminology"/> shows relationships between,
+        state, relevant state, problem, symptom, cause and alert.</t>
+
+        <t>Figure 5 in <xref section="3" sectionFormat="of"
+        target="I-D.ietf-nmop-terminology"/> shows relationships between
+        problem, symptom, cause and root cause.</t>
+
         <t>The following terms are used as defined in <xref
         target="I-D.netana-nmop-network-anomaly-lifecycle"/> :</t>
 
@@ -622,7 +634,7 @@
 
       <section anchor="Arch_Postmortem" title="Postmortem">
         <figure anchor="simplified_lifecycle"
-                title="Anomaly Detection         Refinement Lifecycle">
+                title="Anomaly Detection Refinement Lifecycle">
           <artwork align="center"><![CDATA[
             
 
@@ -651,7 +663,7 @@
         <t>Validation and refinement are performed during Postmortem.</t>
 
         <t>From an Anomaly Detection Lifecycle point of view as described in
-        <xref target="I-D.netana-nmop-network-anomaly-semantics"/>, the
+        <xref target="I-D.netana-nmop-network-anomaly-lifecycle"/>, the
         Service Disruption Detection Configuration evolves over time,
         iteratively, looping over three main phases: detection, validation and
         refinement.</t>
@@ -707,7 +719,8 @@
     </section>
 
     <section anchor="Contributors" title="Contributors">
-      <t>Alex Huang Feng.</t>
+      <t>The authors would like to thank Alex Huang Feng and Vincenzo
+      Riccobene for their valuable contribution.</t>
     </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
