@@ -313,7 +313,21 @@
 
       <section anchor="Knowledge_Based_Detection"
                title="Knowledge Based Detection">
-        <t>Text</t>
+        <t>Knowledge Based Detection refers to the concept of identfying
+        network modelled relationships among different network components. The
+        components are organized in three network planes: Management Plane,
+        Control Plane and Forwarding plane. A component can relate to a
+        physical, virtual, configurational entity or a sum of packets
+        belonging to a flow being forwarded in a network.</t>
+
+        <t>Traditionally such relationships are established manually by a
+        knowledged Network Engineer.</t>
+
+        <t>Such relationships can also be modelled in a Digital Map to
+        automate that process. <xref
+        target="I-D.havel-nmop-digital-map-concept"/> examples a a concept and
+        <xref target="I-D.havel-nmop-digital-map"/> an implementation for such
+        network modelled relationships.</t>
       </section>
 
       <section anchor="Data_Mesh" title="Data Mesh">
@@ -362,8 +376,20 @@
 
         <section anchor="Analyticsl_Observed_Symptoms"
                  title="Analytical Observed Symptoms">
-          <t>In this section observed network symptoms are specified and
-          categorized according to the following scheme:</t>
+          <t>The Service Disruption Detection process generates analytical
+          metrics describing symptom and outlier pattern of the connectivity
+          service disruption.</t>
+
+          <t>The obeserved symptoms are categorized into: action, reason,
+          cause. Where action decribe the change in the network. The reason
+          explains why this changed occured and cause the trigger of that
+          change.</t>
+
+          <t>Symptom definitions are described in <xref section="3"
+          sectionFormat="of"
+          target="I-D.netana-nmop-network-anomaly-semantics"/> and symptom
+          outlier pattern semantics in <xref section="4" sectionFormat="of"
+          target="I-D.netana-nmop-network-anomaly-semantics"/> .</t>
         </section>
       </section>
     </section>
@@ -703,6 +729,10 @@
       <?rfc include='reference.I-D.netana-nmop-network-anomaly-semantics'?>
 
       <?rfc include='reference.I-D.netana-nmop-network-anomaly-lifecycle'?>
+
+      <?rfc include='reference.I-D.havel-nmop-digital-map-concept'?>
+
+      <?rfc include='reference.I-D.havel-nmop-digital-map'?>
     </references>
 
     <references title="Informative References">
