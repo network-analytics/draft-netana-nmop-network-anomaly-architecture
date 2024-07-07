@@ -5,9 +5,9 @@
 NMOP                                                             T. Graf
 Internet-Draft                                                     W. Du
 Intended status: Informational                                  Swisscom
-Expires: 7 January 2025                                      P. Francois
+Expires: 8 January 2025                                      P. Francois
                                                                INSA-Lyon
-                                                             6 July 2024
+                                                             7 July 2024
 
 
        An Architecture for a Network Anomaly Detection Framework
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 1]
+Graf, et al.             Expires 8 January 2025                 [Page 1]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -63,7 +63,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2025.
+   This Internet-Draft will expire on 8 January 2025.
 
 Copyright Notice
 
@@ -96,20 +96,20 @@ Table of Contents
      3.4.  Operational Data Aggregation  . . . . . . . . . . . . . .   9
      3.5.  Service Disruption Detection  . . . . . . . . . . . . . .  10
      3.6.  Alerting  . . . . . . . . . . . . . . . . . . . . . . . .  12
-     3.7.  Replaying . . . . . . . . . . . . . . . . . . . . . . . .  12
-   4.  Implementation Status . . . . . . . . . . . . . . . . . . . .  12
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
-   6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  13
-   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  13
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  13
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  13
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+     3.7.  Postmortem  . . . . . . . . . . . . . . . . . . . . . . .  12
+     3.8.  Replaying . . . . . . . . . . . . . . . . . . . . . . . .  13
+   4.  Implementation Status . . . . . . . . . . . . . . . . . . . .  13
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
+   6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  14
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  14
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  14
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  15
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
 
 
 
-
-Graf, et al.             Expires 7 January 2025                 [Page 2]
+Graf, et al.             Expires 8 January 2025                 [Page 2]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -165,7 +165,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 3]
+Graf, et al.             Expires 8 January 2025                 [Page 3]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -221,7 +221,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 4]
+Graf, et al.             Expires 8 January 2025                 [Page 4]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -277,7 +277,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 5]
+Graf, et al.             Expires 8 January 2025                 [Page 5]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -333,7 +333,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 6]
+Graf, et al.             Expires 8 January 2025                 [Page 6]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -389,7 +389,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 7]
+Graf, et al.             Expires 8 January 2025                 [Page 7]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -409,12 +409,12 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
     |      |            |                         ^     Stream
     |      |            |                         |
     |      |            |                +-------------------+
-    |      | Profile    | Fine           | Alert Aggregation |
-    |      | and        | Tune           | for Anomaly       |
-    |      | Generate   | SDD            | Detection         |
-    |      | SDD Config | Config         +-------------------+
-    |      |            |                       ^  ^  ^ Stream
-    |      v            v                       |  |  |
+    |      | Profile    | Fine           | Alert Aggregation | Store Label
+    |      | and        | Tune           | for Anomaly       | ------------|
+    |      | Generate   | SDD            | Detection         |             |
+    |      | SDD Config | Config         +-------------------+             |
+    |      |            |                       ^  ^  ^ Stream             |
+    |      v            v                       |  |  |                    ?
     |   +-------------------+            +-------------------+        +---------+
     |   | Service Disruption| Schedule   | Service Disruption| Replay |  Data   |
     |   |     Detection     | ---------> |     Detection     |<------ | Storage |
@@ -423,9 +423,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
     |                                       ^ ^ Stream ^ ^ ^               ^
     |                                       | |        | | |               |
     |                                    +---------+---------+             |
-    |                                    | Network |  Data   | Ingest      |
+    |                                    | Network |  Data   | Store       |
     |----------------------------------> |  Model  |  Aggr.  | ------------|
-                                         |         | Process |
+                                         |         | Process | Operational Data
                                          +---------+---------+
                                                 ^  ^  ^ Stream
                                                 |  |  |
@@ -445,7 +445,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 8]
+Graf, et al.             Expires 8 January 2025                 [Page 8]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -501,7 +501,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                 [Page 9]
+Graf, et al.             Expires 8 January 2025                 [Page 9]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -516,7 +516,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
    A retention time also needs to be decided upon for Aggregated data.
    Note that the retention time must be set carefully, in accordance
-   with the replay ability requirement discussed in Section 3.7.
+   with the replay ability requirement discussed in Section 3.8.
 
 3.5.  Service Disruption Detection
 
@@ -557,7 +557,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                [Page 10]
+Graf, et al.             Expires 8 January 2025                [Page 10]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -613,7 +613,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 7 January 2025                [Page 11]
+Graf, et al.             Expires 8 January 2025                [Page 11]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -639,7 +639,66 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    issue.  However, the information provided along with the alert should
    be kept up to date during the full duration of the issue.
 
-3.7.  Replaying
+3.7.  Postmortem
+
+
+
+   Network Anomaly
+     Detection          Detected Symptoms
++-------------------+           &
+|   +-----------+   |   Network Anomalies
+|   | Detection |---|-------------+
+|   |   Stage   |   |             |
+|   +-----------+   |             v
++---------^---------+        +-------------------+      Labels     +------------+
+          |                  | Anomaly Detection |---------------->| Validation |
+          |                  |   Label Store     |<----------------|   Stage    |
+          |                  +-------------------+     Revised     +------------+
+   +------------+                 |                    Labels
+   | Refinement |                 |
+   |   Stage    |<----------------+
+   +------------+        Historical Symptoms
+                                  &
+                          Network Anomalies
+
+
+
+           Figure 2: Anomaly Detection Refinement Lifecycle
+
+   Validation and refinement are performed during Postmortem.
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 12]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
+   From an Anomaly Detection Lifecycle point of view as described in
+   [I-D.netana-nmop-network-anomaly-semantics], the Service Disruption
+   Detection Configuration evolves over time, iteratively, looping over
+   three main phases: detection, validation and refinement.
+
+   The Detection phase produces the alerts that are sent to the Alert
+   and Problem Management System and at the same time it stores the
+   network anomaly and symptom labels into the Label Store.  This
+   enables network engineers to review the labels to validate and edit
+   them as needed.
+
+   The Validation stage is typically performed by network engineers
+   reviewing the results of the detection and indicating which symptoms
+   and network anomalies have been useful for the identification of
+   problems in the network.  The original labels from the Service
+   Disruption Detection are analyzed and an updated set of more accurate
+   labels is provided back to the label store.
+
+   The resulting labels will be then provided back into the Network
+   Anomaly Detection via its refinement capabilities: the refinement is
+   about the update of the Service Disruption Detection configuration in
+   order to improve the results of the detection (e.g. false positives,
+   false negatives, accuracy of the boundaries, etc.).
+
+3.8.  Replaying
 
    When a service disruption has been detected, it is essential for the
    human operator to be able to analyze the data which led to the
@@ -666,10 +725,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-
-
-
-Graf, et al.             Expires 7 January 2025                [Page 12]
+Graf, et al.             Expires 8 January 2025                [Page 13]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -707,10 +763,28 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               <https://datatracker.ietf.org/doc/html/draft-netana-nmop-
               network-anomaly-lifecycle-02>.
 
+   [I-D.netana-nmop-network-anomaly-semantics]
+              Graf, T., Du, W., Feng, A. H., Riccobene, V., and A.
+              Roberto, "Semantic Metadata Annotation for Network Anomaly
+              Detection", Work in Progress, Internet-Draft, draft-
+              netana-nmop-network-anomaly-semantics-01, 16 March 2024,
+              <https://datatracker.ietf.org/doc/html/draft-netana-nmop-
+              network-anomaly-semantics-01>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
+
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 14]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -722,13 +796,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               <https://www.rfc-editor.org/info/rfc9232>.
 
 8.2.  Informative References
-
-
-
-Graf, et al.             Expires 7 January 2025                [Page 13]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    [Deh22]    Dehghani, Z., "Data Mesh", O'Reilly Media,
               ISBN 9781492092391, March 2022,
@@ -765,6 +832,16 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               Management", RFC 8343, DOI 10.17487/RFC8343, March 2018,
               <https://www.rfc-editor.org/info/rfc8343>.
 
+
+
+
+
+
+Graf, et al.             Expires 8 January 2025                [Page 15]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    [VAP09]    Chandola, V., Banerjee, A., and V. Kumar, "Anomaly
               detection: A survey", IETF 117, Applied Networking
               Research Workshop, DOI 10.1145/1541880.1541882, July 2009,
@@ -778,14 +855,6 @@ Authors' Addresses
    Binzring 17
    CH-8045 Zurich
    Switzerland
-
-
-
-Graf, et al.             Expires 7 January 2025                [Page 14]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
    Email: thomas.graf@swisscom.com
 
 
@@ -824,17 +893,4 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Graf, et al.             Expires 7 January 2025                [Page 15]
+Graf, et al.             Expires 8 January 2025                [Page 16]

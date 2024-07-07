@@ -79,7 +79,7 @@
       </address>
     </author>
 
-    <date day="06" month="July" year="2024"/>
+    <date day="07" month="July" year="2024"/>
 
     <area>Operations and Management</area>
 
@@ -398,12 +398,12 @@
     |      |            |                         ^     Stream
     |      |            |                         |
     |      |            |                +-------------------+
-    |      | Profile    | Fine           | Alert Aggregation |
-    |      | and        | Tune           | for Anomaly       |
-    |      | Generate   | SDD            | Detection         |
-    |      | SDD Config | Config         +-------------------+
-    |      |            |                       ^  ^  ^ Stream
-    |      v            v                       |  |  |    
+    |      | Profile    | Fine           | Alert Aggregation | Store Label
+    |      | and        | Tune           | for Anomaly       | ------------|
+    |      | Generate   | SDD            | Detection         |             |
+    |      | SDD Config | Config         +-------------------+             |
+    |      |            |                       ^  ^  ^ Stream             |
+    |      v            v                       |  |  |                    ?
     |   +-------------------+            +-------------------+        +---------+
     |   | Service Disruption| Schedule   | Service Disruption| Replay |  Data   |
     |   |     Detection     | ---------> |     Detection     |<------ | Storage |
@@ -412,9 +412,9 @@
     |                                       ^ ^ Stream ^ ^ ^               ^
     |                                       | |        | | |               |
     |                                    +---------+---------+             |
-    |                                    | Network |  Data   | Ingest      |
+    |                                    | Network |  Data   | Store       |
     |----------------------------------> |  Model  |  Aggr.  | ------------|
-                                         |         | Process |
+                                         |         | Process | Operational Data
                                          +---------+---------+
                                                 ^  ^  ^ Stream
                                                 |  |  |
@@ -594,6 +594,62 @@
         be kept up to date during the full duration of the issue.</t>
       </section>
 
+      <section anchor="Arch_Postmortem" title="Postmortem">
+        <figure anchor="simplified_lifecycle"
+                title="Anomaly Detection         Refinement Lifecycle">
+          <artwork align="center"><![CDATA[
+            
+
+   Network Anomaly
+     Detection          Detected Symptoms                                        
++-------------------+           &                                                
+|   +-----------+   |   Network Anomalies                                        
+|   | Detection |---|-------------+                                              
+|   |   Stage   |   |             |                                              
+|   +-----------+   |             v                                              
++---------^---------+        +-------------------+      Labels     +------------+
+          |                  | Anomaly Detection |---------------->| Validation |
+          |                  |   Label Store     |<----------------|   Stage    |
+          |                  +-------------------+     Revised     +------------+
+   +------------+                 |                    Labels                    
+   | Refinement |                 |                                              
+   |   Stage    |<----------------+                                              
+   +------------+        Historical Symptoms                                    
+                                  &                                              
+                          Network Anomalies                                     
+
+            
+          ]]></artwork>
+        </figure>
+
+        <t>Validation and refinement are performed during Postmortem.</t>
+
+        <t>From an Anomaly Detection Lifecycle point of view as described in
+        <xref target="I-D.netana-nmop-network-anomaly-semantics"/>, the
+        Service Disruption Detection Configuration evolves over time,
+        iteratively, looping over three main phases: detection, validation and
+        refinement.</t>
+
+        <t>The Detection phase produces the alerts that are sent to the Alert
+        and Problem Management System and at the same time it stores the
+        network anomaly and symptom labels into the Label Store. This enables
+        network engineers to review the labels to validate and edit them as
+        needed.</t>
+
+        <t>The Validation stage is typically performed by network engineers
+        reviewing the results of the detection and indicating which symptoms
+        and network anomalies have been useful for the identification of
+        problems in the network. The original labels from the Service
+        Disruption Detection are analyzed and an updated set of more accurate
+        labels is provided back to the label store.</t>
+
+        <t>The resulting labels will be then provided back into the Network
+        Anomaly Detection via its refinement capabilities: the refinement is
+        about the update of the Service Disruption Detection configuration in
+        order to improve the results of the detection (e.g. false positives,
+        false negatives, accuracy of the boundaries, etc.).</t>
+      </section>
+
       <section anchor="Arch_Replaying" title="Replaying">
         <t>When a service disruption has been detected, it is essential for
         the human operator to be able to analyze the data which led to the
@@ -643,6 +699,8 @@
       <?rfc include='reference.RFC.9232'?>
 
       <?rfc include='reference.I-D.ietf-nmop-terminology'?>
+
+      <?rfc include='reference.I-D.netana-nmop-network-anomaly-semantics'?>
 
       <?rfc include='reference.I-D.netana-nmop-network-anomaly-lifecycle'?>
     </references>
