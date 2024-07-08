@@ -325,15 +325,20 @@
 
       <section anchor="Knowledge_Based_Detection"
                title="Knowledge Based Detection">
-        <t>Knowledge Based Detection refers to the concept of identfying
-        network modelled relationships among different network components. The
-        components are organized in three network planes: Management Plane,
-        Control Plane and Forwarding plane. A component can relate to a
-        physical, virtual, configurational entity or a sum of packets
-        belonging to a flow being forwarded in a network.</t>
+        <t>Knowledge-based anomaly detection, also known as rule-based anomaly detection,
+           is a technique used to identify anomalies or outliers by comparing them
+           against predefined rules or patterns. This approach relies on the use of
+           domain-specific knowledge to set standards, thresholds, or rules for
+            what is considered "normal" behavior. Traditionally, these rules are
+            established manually by a knowledgeable network engineer.</t>
 
-        <t>Traditionally such relationships are established manually by a
-        knowledged Network Engineer.</t>
+        <t>Additionally, in the context of network anomaly detection, the
+          knowledge-based approach works hand in hand with the deterministic
+          understanding of the network, which is reflected in network modeling.
+          Components are organized into three network planes: the Management Plane,
+          the Control Plane, and the Forwarding Plane. A component can relate to a
+          physical, virtual, or configurational entity, or to a sum of packets
+           belonging to a flow being forwarded in a network.</t>
 
         <t>Such relationships can also be modelled in a Digital Map to
         automate that process. <xref
@@ -597,17 +602,19 @@
           instances associated with such profile.</t>
         </section>
 
-        <section anchor="RB_vs_ML" title="Machine Learning approaches">
-          <t>Machine learning tools can be used, with the aim of avoiding the
-          efforts described above.</t>
+        <section anchor="RB_vs_ML" title="Machine Learning">
+          <t>Machine learning-based anomaly detection can also be seamlessly
+            integrated into such SDDS. Machine learning is commonly used for
+            detecting outliers or anomalies. Typically, unsupervised learning
+            is widely recognized for its applicability, given the inherent
+            characteristics of network data. Although machine learning requires
+            a sizeable amount of high-quality data and considerable advanced
+            training, the advantages it offers make these requirements worthwhile.
+            The power of this approach lies in its generalizability, robustness,
+            ability to simplify the fine-tuning process, and most importantly,
+            its capability to identify anomaly patterns that might go unnoticed
+            to the human observer.</t>
 
-          <t>TODO PFR RB requires work and parametrization. It cannot detect
-          SDD that the operator didn't think about beforehand. ML requires
-          less work but, if not training can be performed beforehand, or
-          training cannot be generalized, it requires a long time of running
-          before being efficient, typically crippling the system with false
-          positives/false negatives. There is no perfect choice to make
-          here.</t>
         </section>
 
         <section anchor="Storage" title="Storage">
@@ -636,27 +643,27 @@
         <figure anchor="simplified_lifecycle"
                 title="Anomaly Detection Refinement Lifecycle">
           <artwork align="center"><![CDATA[
-            
+
 
    Network Anomaly
-     Detection          Detected Symptoms                                        
-+-------------------+           &                                                
-|   +-----------+   |   Network Anomalies                                        
-|   | Detection |---|-------------+                                              
-|   |   Stage   |   |             |                                              
-|   +-----------+   |             v                                              
+     Detection          Detected Symptoms
++-------------------+           &
+|   +-----------+   |   Network Anomalies
+|   | Detection |---|-------------+
+|   |   Stage   |   |             |
+|   +-----------+   |             v
 +---------^---------+        +-------------------+      Labels     +------------+
           |                  | Anomaly Detection |---------------->| Validation |
           |                  |   Label Store     |<----------------|   Stage    |
           |                  +-------------------+     Revised     +------------+
-   +------------+                 |                    Labels                    
-   | Refinement |                 |                                              
-   |   Stage    |<----------------+                                              
-   +------------+        Historical Symptoms                                    
-                                  &                                              
-                          Network Anomalies                                     
+   +------------+                 |                    Labels
+   | Refinement |                 |
+   |   Stage    |<----------------+
+   +------------+        Historical Symptoms
+                                  &
+                          Network Anomalies
 
-            
+
           ]]></artwork>
         </figure>
 
@@ -732,7 +739,7 @@
         service disruption.</t>
 
         <t>A real-time streaming based version has been deployed in Swisscom
-        production in June 2024 monitoring approximate &gt;12'000 L3 VPN's
+        production as a proof of concept in June 2024 monitoring approximate &gt;12'000 L3 VPN's
         concurrently. Improved profiling capabilities are currently under
         development.</t>
       </section>
