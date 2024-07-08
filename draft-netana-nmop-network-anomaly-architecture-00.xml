@@ -716,8 +716,8 @@
       <section anchor="Cosmos_Bright_Lights" title="Cosmos Bright Lights">
         <t>This architecture have been developed as part of a proof of concept
         started in September 2022 first in a dedicated network lab environment
-        and later in December 2022 was deployed in Swisscom production to
-        monitor a limited 16 L3 VPN connectivity services.</t>
+        and later in December 2022 in Swisscom production to monitor a limited
+        amount of 16 L3 VPN connectivity services.</t>
 
         <t>At the Applied Networking Research Workshop at IRTF 117 the
         architecture was the first time published in the following academic
