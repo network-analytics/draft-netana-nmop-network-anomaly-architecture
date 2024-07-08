@@ -79,7 +79,7 @@
       </address>
     </author>
 
-    <date day="07" month="July" year="2024"/>
+    <date day="08" month="July" year="2024"/>
 
     <area>Operations and Management</area>
 
@@ -712,6 +712,30 @@
       publishing.</t>
 
       <t>This section records the status of known implementations.</t>
+
+      <section anchor="Cosmos_Bright_Lights" title="Cosmos Bright Lights">
+        <t>This architecture have been developed as part of a proof of concept
+        started in September 2022 first in a dedicated network lab environment
+        and later in December 2022 was deployed in Swisscom production to
+        monitor a limited 16 L3 VPN connectivity services.</t>
+
+        <t>At the Applied Networking Research Workshop at IRTF 117 the
+        architecture was the first time published in the following academic
+        paper: <xref target="Ahf23"/>.</t>
+
+        <t>Since December 2022, 20 connectivity service disruptions have been
+        monitored and 52 false positives due to time series database
+        temporarily not being real-time and missing traffic profiling,
+        comparing to previous week was not applicable, occurred. Out of 20
+        connectivity service disruptions 6 parameters where monitored and 3
+        times 1, 8 times 2, 6 times 3, 2 times 4 parameters recognized the
+        service disruption.</t>
+
+        <t>A real-time streaming based version has been deployed in Swisscom
+        production in June 2024 monitoring approximate &gt;12'000 L3 VPN's
+        concurrently. Improved profiling capabilities are currently under
+        development.</t>
+      </section>
     </section>
 
     <section anchor="Security" title="Security Considerations">
@@ -760,6 +784,23 @@
       <?rfc include='reference.RFC.7854'?>
 
       <?rfc include='reference.RFC.8343'?>
+
+      <reference anchor="Ahf23" target="https://hal.science/hal-04307611">
+        <front>
+          <title>Daisy: Practical Anomaly Detection in large BGP/MPLS and
+          BGP/SRv6 VPN Networks</title>
+
+          <author fullname="Alex Huang Feng" initials="A."
+                  surname="Huang Feng"/>
+
+          <date month="July" year="2023"/>
+        </front>
+
+        <seriesInfo name="DOI" value="10.1145/3606464.3606470"/>
+
+        <refcontent>IETF 117, Applied Networking Research
+        Workshop</refcontent>
+      </reference>
 
       <reference anchor="VAP09"
                  target="https://www.researchgate.net/publication/220565847_Anomaly_Detection_A_Survey">

@@ -5,9 +5,9 @@
 NMOP                                                             T. Graf
 Internet-Draft                                                     W. Du
 Intended status: Informational                                  Swisscom
-Expires: 8 January 2025                                      P. Francois
+Expires: 9 January 2025                                      P. Francois
                                                                INSA-Lyon
-                                                             7 July 2024
+                                                             8 July 2024
 
 
        An Architecture for a Network Anomaly Detection Framework
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Graf, et al.             Expires 8 January 2025                 [Page 1]
+Graf, et al.             Expires 9 January 2025                 [Page 1]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -63,7 +63,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2025.
+   This Internet-Draft will expire on 9 January 2025.
 
 Copyright Notice
 
@@ -99,20 +99,22 @@ Table of Contents
      3.7.  Postmortem  . . . . . . . . . . . . . . . . . . . . . . .  13
      3.8.  Replaying . . . . . . . . . . . . . . . . . . . . . . . .  14
    4.  Implementation Status . . . . . . . . . . . . . . . . . . . .  14
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
+     4.1.  Cosmos Bright Lights  . . . . . . . . . . . . . . . . . .  15
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  15
    6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  15
    7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  15
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .  15
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  16
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  17
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  17
 
 
 
-Graf, et al.             Expires 8 January 2025                 [Page 2]
+Graf, et al.             Expires 9 January 2025                 [Page 2]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
+
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  18
 
 1.  Introduction
 
@@ -151,6 +153,23 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    simply outnumbered by the amount of people using connectivity
    services.
 
+
+
+
+
+
+
+
+
+
+
+
+
+Graf, et al.             Expires 9 January 2025                 [Page 3]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    This automation needs to monitor network changes holistically by
    monitoring all 3 network planes simultaneously for a given
    connectivity service and detect whether that change is service
@@ -161,14 +180,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    words, control and management plane changes can be attributed to
    network state changes where forwarding plane to the outcome of these
    network state changes.
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 3]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    Since changes in networks are happening all the time due to the vast
    number of dependencies, a scoring system is needed to indicate
@@ -207,6 +218,14 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    Outlier Detection: Is a systematic approach to identify rare data
    points deviating significantly from the majority.
 
+
+
+
+Graf, et al.             Expires 9 January 2025                 [Page 4]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    Service Disruption Detection (SDD): The process of detecting a
    service degradation by discovering anomalies in network monitoring
    data.
@@ -217,14 +236,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    Additionally it makes use of the terms defined in
    [I-D.ietf-nmop-terminology] and
    [I-D.netana-nmop-network-anomaly-lifecycle].
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 4]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    The following terms are used as defined in
    [I-D.ietf-nmop-terminology] :
@@ -263,6 +274,14 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
    *  Alert
 
+
+
+
+Graf, et al.             Expires 9 January 2025                 [Page 5]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    *  Transient
 
    *  Intermittent
@@ -273,14 +292,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    Figure 4 in Section 3 of [I-D.ietf-nmop-terminology] shows
    relationships between, state, relevant state, problem, symptom, cause
    and alert.
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 5]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    Figure 5 in Section 3 of [I-D.ietf-nmop-terminology] shows
    relationships between problem, symptom, cause and root cause.
@@ -319,6 +330,14 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
       behavior of each single data point that are part of the anomaly
       are within expected ranges (so they are not anomalous it either a
       contextual or a global sense), but the group, taking all the data
+
+
+
+Graf, et al.             Expires 9 January 2025                 [Page 6]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
       points together, is.  Note that the group can be made within a
       single time series (a sequence of data points is anomalous) or
       across multiple metrics (e.g. if looking at two metrics together,
@@ -326,17 +345,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
       Telemetry time series, one way this can manifest is that the
       amount of network paths and interface state changes matches the
       time range when the forwarded packet volume decreases as a group.
-
-
-
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 6]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
 
    For each outlier a score between 0 and 1 is being calculated.  The
    higher the value, the higher the probability that the observed data
@@ -379,21 +387,19 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
       Interface state and statistics modelled in ietf-interfaces.yang
       [RFC8343]
 
+
+
+Graf, et al.             Expires 9 January 2025                 [Page 7]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    Control Plane:  Time series data describing the state and state
       changes of network reachability.  For example, BGP VPNv6 unicast
       updates and withdrawals exported in BGP Monitoring Protocol (BMP)
       [RFC7854] and modeled in BGP [RFC4364]
 
    Forwarding Plane:  Time series data describing the forwarding
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 7]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
       behavior of packets and its data-plane context.  For example,
       dropped packet count modelled in IPFIX entity
       forwardingStatus(IE89) [RFC7270] and packetDeltaCount(IE2)
@@ -436,20 +442,20 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
     |      |       | Post-   | Stream    |   Message Broker  |
     |      |       | mortem  | <-------- |  with Analytical  |
     |      |       | System  |           |    Network Data   |
+
+
+
+Graf, et al.             Expires 9 January 2025                 [Page 8]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
     |      |       +---------+           +-------------------+
     |      |            |                         ^     Stream
     |      |            |                         |
     |      |            |                +-------------------+
     |      | Profile    | Fine           | Alert Aggregation | Store Label
     |      | and        | Tune           | for Anomaly       | ------------|
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 8]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
     |      | Generate   | SDD            | Detection         |             |
     |      | SDD Config | Config         +-------------------+             |
     |      |            |                       ^  ^  ^ Stream             |
@@ -495,13 +501,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-
-
-
-
-
-
-Graf, et al.             Expires 8 January 2025                 [Page 9]
+Graf, et al.             Expires 9 January 2025                 [Page 9]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -557,7 +557,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 8 January 2025                [Page 10]
+Graf, et al.             Expires 9 January 2025                [Page 10]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -613,7 +613,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 8 January 2025                [Page 11]
+Graf, et al.             Expires 9 January 2025                [Page 11]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -669,7 +669,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 8 January 2025                [Page 12]
+Graf, et al.             Expires 9 January 2025                [Page 12]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -725,7 +725,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
 
 
-Graf, et al.             Expires 8 January 2025                [Page 13]
+Graf, et al.             Expires 9 January 2025                [Page 13]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
@@ -773,18 +773,46 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 
    This section records the status of known implementations.
 
-5.  Security Considerations
-
-   TBD
 
 
 
 
 
-Graf, et al.             Expires 8 January 2025                [Page 14]
+
+
+
+Graf, et al.             Expires 9 January 2025                [Page 14]
 
 Internet-Draft     Network Anomaly Detection Framework         July 2024
 
+
+4.1.  Cosmos Bright Lights
+
+   This architecture have been developed as part of a proof of concept
+   started in September 2022 first in a dedicated network lab
+   environment and later in December 2022 was deployed in Swisscom
+   production to monitor a limited 16 L3 VPN connectivity services.
+
+   At the Applied Networking Research Workshop at IRTF 117 the
+   architecture was the first time published in the following academic
+   paper: [Ahf23].
+
+   Since December 2022, 20 connectivity service disruptions have been
+   monitored and 52 false positives due to time series database
+   temporarily not being real-time and missing traffic profiling,
+   comparing to previous week was not applicable, occurred.  Out of 20
+   connectivity service disruptions 6 parameters where monitored and 3
+   times 1, 8 times 2, 6 times 3, 2 times 4 parameters recognized the
+   service disruption.
+
+   A real-time streaming based version has been deployed in Swisscom
+   production in June 2024 monitoring approximate >12'000 L3 VPN's
+   concurrently.  Improved profiling capabilities are currently under
+   development.
+
+5.  Security Considerations
+
+   TBD
 
 6.  Contributors
 
@@ -799,6 +827,20 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
 8.  References
 
 8.1.  Normative References
+
+
+
+
+
+
+
+
+
+
+Graf, et al.             Expires 9 January 2025                [Page 15]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
 
    [I-D.havel-nmop-digital-map]
               Havel, O., Claise, B., de Dios, O. G., Elhassany, A., and
@@ -832,16 +874,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               <https://datatracker.ietf.org/doc/html/draft-netana-nmop-
               network-anomaly-lifecycle-02>.
 
-
-
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 15]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
    [I-D.netana-nmop-network-anomaly-semantics]
               Graf, T., Du, W., Feng, A. H., Riccobene, V., and A.
               Roberto, "Semantic Metadata Annotation for Network Anomaly
@@ -859,12 +891,25 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+
+
+Graf, et al.             Expires 9 January 2025                [Page 16]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
+
    [RFC9232]  Song, H., Qin, F., Martinez-Julia, P., Ciavaglia, L., and
               A. Wang, "Network Telemetry Framework", RFC 9232,
               DOI 10.17487/RFC9232, May 2022,
               <https://www.rfc-editor.org/info/rfc9232>.
 
 8.2.  Informative References
+
+   [Ahf23]    Huang Feng, A., "Daisy: Practical Anomaly Detection in
+              large BGP/MPLS and BGP/SRv6 VPN Networks", IETF 117,
+              Applied Networking Research Workshop,
+              DOI 10.1145/3606464.3606470, July 2023,
+              <https://hal.science/hal-04307611>.
 
    [Deh22]    Dehghani, Z., "Data Mesh", O'Reilly Media,
               ISBN 9781492092391, March 2022,
@@ -886,18 +931,6 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
               RFC 7011, DOI 10.17487/RFC7011, September 2013,
               <https://www.rfc-editor.org/info/rfc7011>.
 
-
-
-
-
-
-
-
-Graf, et al.             Expires 8 January 2025                [Page 16]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2024
-
-
    [RFC7270]  Yourtchenko, A., Aitken, P., and B. Claise, "Cisco-
               Specific Information Elements Reused in IP Flow
               Information Export (IPFIX)", RFC 7270,
@@ -912,6 +945,14 @@ Internet-Draft     Network Anomaly Detection Framework         July 2024
    [RFC8343]  Bjorklund, M., "A YANG Data Model for Interface
               Management", RFC 8343, DOI 10.17487/RFC8343, March 2018,
               <https://www.rfc-editor.org/info/rfc8343>.
+
+
+
+
+Graf, et al.             Expires 9 January 2025                [Page 17]
+
+Internet-Draft     Network Anomaly Detection Framework         July 2024
+
 
    [VAP09]    Chandola, V., Banerjee, A., and V. Kumar, "Anomaly
               detection: A survey", IETF 117, Applied Networking
@@ -949,4 +990,19 @@ Authors' Addresses
 
 
 
-Graf, et al.             Expires 8 January 2025                [Page 17]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Graf, et al.             Expires 9 January 2025                [Page 18]
