@@ -152,8 +152,8 @@
         a network topology change. Where a change in the forwarding plane
         describe how the packets are being forwarded. Or in other words,
         control and management plane changes can be attributed to network
-        state changes where forwarding plane to the outcome of these network
-        state changes.</t>
+        topology state changes where forwarding plane to the outcome of these
+		network topology state changes.</t>
 
         <t>Since changes in networks are happening all the time due to the
         vast number of dependencies, a scoring system is needed to indicate
@@ -214,8 +214,6 @@
 
             <t>Characteristic</t>
 
-            <t>Condition</t>
-
             <t>Change</t>
 
             <t>Detect</t>
@@ -236,11 +234,9 @@
 
             <t>Cause</t>
 
-            <t>Root Cause</t>
-
             <t>Consolidation</t>
 
-            <t>Alert</t>
+            <t>Alarm</t>
 
             <t>Transient</t>
 
@@ -253,11 +249,11 @@
 
         <t>Figure 4 in <xref section="3" sectionFormat="of"
         target="I-D.ietf-nmop-terminology"/> shows relationships between,
-        state, relevant state, problem, symptom, cause and alert.</t>
+        state, relevant state, problem, symptom, cause and alarm.</t>
 
         <t>Figure 5 in <xref section="3" sectionFormat="of"
         target="I-D.ietf-nmop-terminology"/> shows relationships between
-        problem, symptom, cause and root cause.</t>
+        problem, symptom and cause.</t>
 
         <t>The following terms are used as defined in <xref
         target="I-D.netana-nmop-network-anomaly-lifecycle"/> :</t>
@@ -373,7 +369,7 @@
             <dt>Management Plane:</dt>
 
             <dd>Time series data describing the state changes and statistics
-            of a network node and its components. For example, Interface state
+            of a network node and its resources. For example, Interface state
             and statistics modelled in ietf-interfaces.yang <xref
             target="RFC8343"/></dd>
           </dl>
@@ -415,9 +411,9 @@
 
           <t>Symptom definitions are described in <xref section="3"
           sectionFormat="of"
-          target="I-D.netana-nmop-network-anomaly-semantics"/> and symptom
+          target="I-D.netana-nmop-network-anomaly-semantics"/> and
           outlier pattern semantics in <xref section="4" sectionFormat="of"
-          target="I-D.netana-nmop-network-anomaly-semantics"/> and expressed
+          target="I-D.netana-nmop-network-anomaly-lifecycle"/> and expressed
 		  YANG information models.</t>
 		  
 		  <t>However the semantic triples could also be expressed with the
@@ -447,7 +443,7 @@
         <artwork align="center"><![CDATA[
 
          +---------+                     +-------------------+
-         |Service  |                     |     Alert and     |
+         |Service  |                     |     Alarm and     |
     |--- |Inventory|                     | Problem Management|
     |    |         |                     |      System       |
     |    +---------+                     +-------------------+
@@ -461,7 +457,7 @@
     |      |            |                         ^     Stream
     |      |            |                         |
     |      |            |                +-------------------+
-    |      | Profile    | Fine           | Alert Aggregation | Store Label
+    |      | Profile    | Fine           | Alarm Aggregation | Store Label
     |      | and        | Tune           | for Anomaly       | ------------|
     |      | Generate   | SDD            | Detection         |             |
     |      | SDD Config | Config         +-------------------+             |
@@ -516,7 +512,7 @@
         result of an evolution of the profiling being performed, as the result
         of a postmortem analysis being produced as a result of an event
         impacting the service, or the occurrence of false positives being
-        raised by the alerting system.</t>
+        raised by the alarm system.</t>
       </section>
 
       <section anchor="Arch_Collection" title="Operational Data Collection">
@@ -570,8 +566,8 @@
         Second, the algorithms used to make a decision to alert the operator
         need to be designed in such a way that the operator can trust that a
         targeted Service Disruption will be detected (no false negatives),
-        while not spamming the operator with alerts that do not reflect an
-        actual issue within the network (false positives) leading to alert
+        while not spamming the operator with alarms that do not reflect an
+        actual issue within the network (false positives) leading to alarm
         fatigue.</t>
 
         <t>Two approaches are typically followed to present the data to the
@@ -613,11 +609,11 @@
           target="Outlier_Detection"/> .</t>
 
           <t>When one of the strategies applied for a profile detects a
-          concerning outlier or combined outlier, an alert needs to be
+          concerning outlier or combined outlier, an alarm needs to be
           raised.</t>
 
           <t>Depending on the implementation of the architecture, a scheduler
-          may be needed in order to orchestrate the evaluation of the alert
+          may be needed in order to orchestrate the evaluation of the alarm
           levels for each strategy applied for a profile, for all service
           instances associated with such profile.</t>
         </section>
@@ -645,10 +641,10 @@
         </section>
       </section>
 
-      <section anchor="Arch_Alerting" title="Alerting">
+      <section anchor="Arch_Alarm" title="Alarm">
         <t>When the SDD component decides that a service is undergoing a
         disruption, a relevant-state change notification needs to be sent to
-		the alert and problem management system as shown in Figure 4 in <xref
+		the alarm and problem management system as shown in Figure 4 in <xref
 		section="3" sectionFormat="of" target="I-D.ietf-nmop-terminology"/>.
 		Multiple practical aspects need to be taken into account in this
 		component.</t>
@@ -657,7 +653,7 @@
         component runs, the relevant-state change mechanism should not create
 		multiple notifications to the operator, so as to not overwhelm the
 		management of the issue. However, the information provided along with
-		the alert should be kept up to date during the full duration of the
+		the alarm should be kept up to date during the full duration of the
 		issue.</t>
       </section>
 
@@ -668,7 +664,7 @@
 
 
    Network Anomaly
-     Detection          Detected Symptoms
+     Detection               Symptoms
 +-------------------+           &
 |   +-----------+   |   Network Anomalies
 |   | Detection |---|-------------+
@@ -697,7 +693,7 @@
         iteratively, looping over three main phases: detection, validation and
         refinement.</t>
 
-        <t>The Detection phase produces the alerts that are sent to the Alert
+        <t>The Detection phase produces the alarms that are sent to the Alarm
         and Problem Management System and at the same time it stores the
         network anomaly and symptom labels into the Label Store. This enables
         network engineers to review the labels to validate and edit them as
@@ -720,10 +716,10 @@
       <section anchor="Arch_Replaying" title="Replaying">
         <t>When a service disruption has been detected, it is essential for
         the human operator to be able to analyze the data which led to the
-        raising of an Alert. It is thus important that a SSDS preserves both
-        the data which led to the creation of the alert as well as human
+        raising of an Alarm. It is thus important that a SSDS preserves both
+        the data which led to the creation of the alarm as well as human
         understandable information on why the data led to the raising of an
-        alert.</t>
+        alarm.</t>
 
         <t>In early stages of operations or when experimenting with a SDDS, it
         is common that the parameters used for SDD are to be fined tuned. This

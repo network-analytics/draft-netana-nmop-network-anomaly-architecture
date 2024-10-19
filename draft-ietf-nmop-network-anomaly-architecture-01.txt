@@ -88,14 +88,14 @@ Table of Contents
      2.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
      2.2.  Outlier Detection . . . . . . . . . . . . . . . . . . . .   6
      2.3.  Knowledge Based Detection . . . . . . . . . . . . . . . .   7
-     2.4.  Data Mesh . . . . . . . . . . . . . . . . . . . . . . . .   8
+     2.4.  Data Mesh . . . . . . . . . . . . . . . . . . . . . . . .   7
    3.  Elements of the Architecture  . . . . . . . . . . . . . . . .   9
      3.1.  Service Inventory . . . . . . . . . . . . . . . . . . . .  10
      3.2.  SDD Configuration . . . . . . . . . . . . . . . . . . . .  10
-     3.3.  Operational Data Collection . . . . . . . . . . . . . . .  11
+     3.3.  Operational Data Collection . . . . . . . . . . . . . . .  10
      3.4.  Operational Data Aggregation  . . . . . . . . . . . . . .  11
      3.5.  Service Disruption Detection  . . . . . . . . . . . . . .  11
-     3.6.  Alerting  . . . . . . . . . . . . . . . . . . . . . . . .  13
+     3.6.  Alarm . . . . . . . . . . . . . . . . . . . . . . . . . .  13
      3.7.  Postmortem  . . . . . . . . . . . . . . . . . . . . . . .  13
      3.8.  Replaying . . . . . . . . . . . . . . . . . . . . . . . .  15
    4.  Implementation Status . . . . . . . . . . . . . . . . . . . .  15
@@ -178,8 +178,8 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    indicate a network topology change.  Where a change in the forwarding
    plane describe how the packets are being forwarded.  Or in other
    words, control and management plane changes can be attributed to
-   network state changes where forwarding plane to the outcome of these
-   network state changes.
+   network topology state changes where forwarding plane to the outcome
+   of these network topology state changes.
 
    Since changes in networks are happening all the time due to the vast
    number of dependencies, a scoring system is needed to indicate
@@ -246,8 +246,6 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
 
    *  Characteristic
 
-   *  Condition
-
    *  Change
 
    *  Detect
@@ -268,11 +266,13 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
 
    *  Cause
 
-   *  Root Cause
-
    *  Consolidation
 
-   *  Alert
+   *  Alarm
+
+   *  Transient
+
+   *  Intermittent
 
 
 
@@ -282,19 +282,15 @@ Graf, et al.              Expires 19 April 2025                 [Page 5]
 Internet-Draft     Network Anomaly Detection Framework      October 2024
 
 
-   *  Transient
-
-   *  Intermittent
-
    Figure 2 in Section 3 of [I-D.ietf-nmop-terminology] shows
    characteristics of observed operational network telemetry metrics.
 
    Figure 4 in Section 3 of [I-D.ietf-nmop-terminology] shows
    relationships between, state, relevant state, problem, symptom, cause
-   and alert.
+   and alarm.
 
    Figure 5 in Section 3 of [I-D.ietf-nmop-terminology] shows
-   relationships between problem, symptom, cause and root cause.
+   relationships between problem, symptom and cause.
 
    The following terms are used as defined in
    [I-D.netana-nmop-network-anomaly-lifecycle] :
@@ -330,6 +326,10 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
       behavior of each single data point that are part of the anomaly
       are within expected ranges (so they are not anomalous it either a
       contextual or a global sense), but the group, taking all the data
+      points together, is.  Note that the group can be made within a
+      single time series (a sequence of data points is anomalous) or
+      across multiple metrics (e.g. if looking at two metrics together,
+      the combined behavior turns out to be anomalous).  In Network
 
 
 
@@ -338,10 +338,6 @@ Graf, et al.              Expires 19 April 2025                 [Page 6]
 Internet-Draft     Network Anomaly Detection Framework      October 2024
 
 
-      points together, is.  Note that the group can be made within a
-      single time series (a sequence of data points is anomalous) or
-      across multiple metrics (e.g. if looking at two metrics together,
-      the combined behavior turns out to be anomalous).  In Network
       Telemetry time series, one way this can manifest is that the
       amount of network paths and interface state changes matches the
       time range when the forwarded packet volume decreases as a group.
@@ -383,8 +379,12 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    augment the relationships among different network elements in the
    network model.
 
+2.4.  Data Mesh
 
-
+   The Data Mesh [Deh22] Architecture distinguishes between operational
+   and analytical data.  Operational data refers to collected data from
+   operational systems.  While analytical data refers to insights gained
+   from operational data.
 
 
 
@@ -394,13 +394,6 @@ Graf, et al.              Expires 19 April 2025                 [Page 7]
 Internet-Draft     Network Anomaly Detection Framework      October 2024
 
 
-2.4.  Data Mesh
-
-   The Data Mesh [Deh22] Architecture distinguishes between operational
-   and analytical data.  Operational data refers to collected data from
-   operational systems.  While analytical data refers to insights gained
-   from operational data.
-
 2.4.1.  Operational Network Data
 
    In terms of network observability, semantics of operational network
@@ -409,7 +402,7 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    different network planes:
 
    Management Plane:  Time series data describing the state changes and
-      statistics of a network node and its components.  For example,
+      statistics of a network node and its resources.  For example,
       Interface state and statistics modelled in ietf-interfaces.yang
       [RFC8343]
 
@@ -437,10 +430,17 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    where the subject is the cause which triggered that change.
 
    Symptom definitions are described in Section 3 of
-   [I-D.netana-nmop-network-anomaly-semantics] and symptom outlier
-   pattern semantics in Section 4 of
-   [I-D.netana-nmop-network-anomaly-semantics] and expressed YANG
-   information models.
+   [I-D.netana-nmop-network-anomaly-semantics] and outlier pattern
+   semantics in Section 4 of [I-D.netana-nmop-network-anomaly-lifecycle]
+   and expressed YANG information models.
+
+   However the semantic triples could also be expressed with the
+   Semantic Web Technology Stack in RDF, RDFS and OWL definitions as
+   described in Section 6 of [I-D.mackey-nmop-kg-for-netops].  Together
+   with the ontology definitions described in Section 2.3 a Knowledge
+   Graph can be created describing the relationship between the network
+   state and the observed symptom.
+
 
 
 
@@ -449,13 +449,6 @@ Graf, et al.              Expires 19 April 2025                 [Page 8]
 
 Internet-Draft     Network Anomaly Detection Framework      October 2024
 
-
-   However the semantic triples could also be expressed with the
-   Semantic Web Technology Stack in RDF, RDFS and OWL definitions as
-   described in Section 6 of [I-D.mackey-nmop-kg-for-netops].  Together
-   with the ontology definitions described in Section 2.3 a Knowledge
-   Graph can be created describing the relationship between the network
-   state and the observed symptom.
 
 3.  Elements of the Architecture
 
@@ -469,7 +462,7 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    components are described in the following subsections.
 
          +---------+                     +-------------------+
-         |Service  |                     |     Alert and     |
+         |Service  |                     |     Alarm and     |
     |--- |Inventory|                     | Problem Management|
     |    |         |                     |      System       |
     |    +---------+                     +-------------------+
@@ -483,7 +476,7 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
     |      |            |                         ^     Stream
     |      |            |                         |
     |      |            |                +-------------------+
-    |      | Profile    | Fine           | Alert Aggregation | Store Label
+    |      | Profile    | Fine           | Alarm Aggregation | Store Label
     |      | and        | Tune           | for Anomaly       | ------------|
     |      | Generate   | SDD            | Detection         |             |
     |      | SDD Config | Config         +-------------------+             |
@@ -498,6 +491,13 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
     |                                       | |        | | |               |
     |                                    +---------+---------+             |
     |                                    | Network |  Data   | Store       |
+    |----------------------------------> |  Model  |  Aggr.  | ------------|
+                                         |         | Process | Operational Data
+                                         +---------+---------+
+                                                ^  ^  ^ Stream
+                                                |  |  |
+                                         +-------------------+
+                                         |   Message Broker  |
 
 
 
@@ -506,13 +506,6 @@ Graf, et al.              Expires 19 April 2025                 [Page 9]
 Internet-Draft     Network Anomaly Detection Framework      October 2024
 
 
-    |----------------------------------> |  Model  |  Aggr.  | ------------|
-                                         |         | Process | Operational Data
-                                         +---------+---------+
-                                                ^  ^  ^ Stream
-                                                |  |  |
-                                         +-------------------+
-                                         |   Message Broker  |
                                          |  with Operational |
                                          |    Network Data   |
                                          +-------------------+
@@ -547,20 +540,7 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    of an evolution of the profiling being performed, as the result of a
    postmortem analysis being produced as a result of an event impacting
    the service, or the occurrence of false positives being raised by the
-   alerting system.
-
-
-
-
-
-
-
-
-
-Graf, et al.              Expires 19 April 2025                [Page 10]
-
-Internet-Draft     Network Anomaly Detection Framework      October 2024
-
+   alarm system.
 
 3.3.  Operational Data Collection
 
@@ -571,6 +551,16 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
 
    The monitoring data produced by the collection infrastructure is then
    streamed through a message broker system. for further processing.
+
+
+
+
+
+
+Graf, et al.              Expires 19 April 2025                [Page 10]
+
+Internet-Draft     Network Anomaly Detection Framework      October 2024
+
 
    Networks tend to produce extremely large amounts of monitoring data.
    To preserve scaling and reduce costs, decisions need to be made on
@@ -610,6 +600,16 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    carefully designed, as networks typically produce extremely large
    amounts of data which may hinder the scalability of the architecture.
    Second, the algorithms used to make a decision to alert the operator
+   need to be designed in such a way that the operator can trust that a
+   targeted Service Disruption will be detected (no false negatives),
+   while not spamming the operator with alarms that do not reflect an
+   actual issue within the network (false positives) leading to alarm
+   fatigue.
+
+
+
+
+
 
 
 
@@ -617,12 +617,6 @@ Graf, et al.              Expires 19 April 2025                [Page 11]
 
 Internet-Draft     Network Anomaly Detection Framework      October 2024
 
-
-   need to be designed in such a way that the operator can trust that a
-   targeted Service Disruption will be detected (no false negatives),
-   while not spamming the operator with alerts that do not reflect an
-   actual issue within the network (false positives) leading to alert
-   fatigue.
 
    Two approaches are typically followed to present the data to the SDD
    system.  Classically, the aggregated data can be stored in a database
@@ -664,7 +658,13 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    .
 
    When one of the strategies applied for a profile detects a concerning
-   outlier or combined outlier, an alert needs to be raised.
+   outlier or combined outlier, an alarm needs to be raised.
+
+   Depending on the implementation of the architecture, a scheduler may
+   be needed in order to orchestrate the evaluation of the alarm levels
+   for each strategy applied for a profile, for all service instances
+   associated with such profile.
+
 
 
 
@@ -673,11 +673,6 @@ Graf, et al.              Expires 19 April 2025                [Page 12]
 
 Internet-Draft     Network Anomaly Detection Framework      October 2024
 
-
-   Depending on the implementation of the architecture, a scheduler may
-   be needed in order to orchestrate the evaluation of the alert levels
-   for each strategy applied for a profile, for all service instances
-   associated with such profile.
 
 3.5.4.  Machine Learning
 
@@ -701,11 +696,11 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    which such data is stored, as slow access to such data may be
    detrimental to the reactivity of the system.
 
-3.6.  Alerting
+3.6.  Alarm
 
    When the SDD component decides that a service is undergoing a
    disruption, a relevant-state change notification needs to be sent to
-   the alert and problem management system as shown in Figure 4 in
+   the alarm and problem management system as shown in Figure 4 in
    Section 3 of [I-D.ietf-nmop-terminology].  Multiple practical aspects
    need to be taken into account in this component.
 
@@ -713,10 +708,15 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    component runs, the relevant-state change mechanism should not create
    multiple notifications to the operator, so as to not overwhelm the
    management of the issue.  However, the information provided along
-   with the alert should be kept up to date during the full duration of
+   with the alarm should be kept up to date during the full duration of
    the issue.
 
 3.7.  Postmortem
+
+
+
+
+
 
 
 
@@ -731,7 +731,7 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
 
 
    Network Anomaly
-     Detection          Detected Symptoms
+     Detection               Symptoms
 +-------------------+           &
 |   +-----------+   |   Network Anomalies
 |   | Detection |---|-------------+
@@ -759,7 +759,7 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
    Detection Configuration evolves over time, iteratively, looping over
    three main phases: detection, validation and refinement.
 
-   The Detection phase produces the alerts that are sent to the Alert
+   The Detection phase produces the alarms that are sent to the Alarm
    and Problem Management System and at the same time it stores the
    network anomaly and symptom labels into the Label Store.  This
    enables network engineers to review the labels to validate and edit
@@ -790,10 +790,10 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
 
    When a service disruption has been detected, it is essential for the
    human operator to be able to analyze the data which led to the
-   raising of an Alert.  It is thus important that a SSDS preserves both
-   the data which led to the creation of the alert as well as human
+   raising of an Alarm.  It is thus important that a SSDS preserves both
+   the data which led to the creation of the alarm as well as human
    understandable information on why the data led to the raising of an
-   alert.
+   alarm.
 
    In early stages of operations or when experimenting with a SDDS, it
    is common that the parameters used for SDD are to be fined tuned.
@@ -880,9 +880,9 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
               Davis, N., Farrel, A., Graf, T., Wu, Q., and C. Yu, "Some
               Key Terms for Network Fault and Problem Management", Work
               in Progress, Internet-Draft, draft-ietf-nmop-terminology-
-              05, 12 September 2024,
+              06, 17 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-nmop-
-              terminology-05>.
+              terminology-06>.
 
 
 
