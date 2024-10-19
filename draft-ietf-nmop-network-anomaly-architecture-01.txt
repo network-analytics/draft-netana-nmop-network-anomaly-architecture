@@ -853,8 +853,8 @@ Internet-Draft     Network Anomaly Detection Framework      October 2024
 
 7.  Acknowledgements
 
-   The authors would like to thank Qin Wu and Ignacio Dominguez
-   Martinez-Casanueva for their review and valuable comments.
+   The authors would like to thank Qin Wu, Ignacio Dominguez Martinez-
+   Casanueva and Adrian Farrel for their review and valuable comments.
 
 8.  References
 
