@@ -78,7 +78,7 @@
       </address>
     </author>
 
-    <date day="16" month="October" year="2024"/>
+    <date day="19" month="March" year="2025"/>
 
     <area>Operations and Management</area>
 
@@ -87,7 +87,7 @@
     <abstract>
       <t>This document describes the motivation and architecture of a Network
       Anomaly Detection Framework and the relationship to other documents
-      describing network symptom semantics and network incident lifecycle.</t>
+      describing network Symptom semantics and network incident lifecycle.</t>
 
       <t>The described architecture for detecting IP network service
       interruption is designed to be generic applicable and extensible. Different
@@ -151,8 +151,8 @@
         a network topology change while a change in the forwarding plane
         describes how the packets are being forwarded. In other words,
         control and management plane changes can be attributed to network
-        topology state changes whereas forwarding plane is related to the outcome of these
-		    network topology state changes.</t>
+        topology State changes whereas forwarding plane is related to the outcome of these
+		    network topology State changes.</t>
 
         <t>Since changes in networks are happening all the time due to the
         vast number of dependencies, a scoring system is needed to indicate
@@ -210,15 +210,7 @@
         target="I-D.ietf-nmop-terminology"/> :</t>
 
         <t><list style="symbols">
-            <t>System</t>
-
             <t>Resource</t>
-
-            <t>Characteristic</t>
-
-            <t>Change</t>
-
-            <t>Detect</t>
 
             <t>Event</t>
 
@@ -226,23 +218,13 @@
 
             <t>Relevance</t>
 
-            <t>Occurrence</t>
-
-            <t>Incident</t>
-
             <t>Problem</t>
 
             <t>Symptom</t>
 
             <t>Cause</t>
 
-            <t>Consolidation</t>
-
             <t>Alarm</t>
-
-            <t>Transient</t>
-
-            <t>Intermittent</t>
           </list></t>
 
         <t>Figure 2 in <xref section="3" sectionFormat="of"
@@ -308,7 +290,7 @@
           of data points is anomalous) or across multiple metrics (e.g. if
           looking at two metrics together, the combined behavior turns out to
           be anomalous). In Network Telemetry time series, one way this can
-          manifest is that the amount of network paths and interface state
+          manifest is that the amount of network paths and interface State
           changes matches the time range when the forwarded packet volume
           decreases as a group.</dd>
         </dl>
@@ -332,7 +314,7 @@
         human and machine readable expressions using ontologies <xref section="5.3"
         sectionFormat="of" target="I-D.mackey-nmop-kg-for-netops"/>. Such ontologies
         can be based on RFC-like documents which define network protocol behaviours and derived 
-        network symptoms and patterns.</t>
+        network Symptoms and patterns.</t>
 
         <t>Additionally, in the context of network anomaly detection, the
         knowledge-based approach works hand in hand with the deterministic
@@ -369,15 +351,15 @@
           <dl>
             <dt>Management Plane:</dt>
 
-            <dd>Time series data describing the state changes and statistics
-            of a network node and its resources. For example, Interface state
+            <dd>Time series data describing the State changes and statistics
+            of a network node and its Resources. For example, Interface State
             and statistics modeled in ietf-interfaces.yang <xref target="RFC8343"/>.</dd>
           </dl>
 
           <dl>
             <dt>Control Plane:</dt>
 
-            <dd>Time series data describing the state and state changes of
+            <dd>Time series data describing the State and State changes of
             network reachability. For example, BGP VPNv6 unicast updates and
             withdrawals exported in BGP Monitoring Protocol (BMP) <xref
             target="RFC7854"/> and modeled in BGP <xref
@@ -400,10 +382,10 @@
                  title="Analytical Observed Symptoms">
           <t>The Service Disruption Detection process takes operational network data 
           as input and generates analytical
-          metrics describing symptoms and outlier pattern of the connectivity
+          metrics describing Symptoms and outlier pattern of the connectivity
           service disruption.</t>
 
-          <t>The observed symptoms are categorized into a semantic triple
+          <t>The observed Symptoms are categorized into a semantic triple
           <xref target="W3C-RDF-concept-triples"/>: action,
           reason, cause. The object is the action, decribing
           the change in the network. The reason is the predicate, 
@@ -423,7 +405,7 @@
           target="I-D.mackey-nmop-kg-for-netops"/>. Together with the ontology
           definitions described in <xref target="Knowledge_Based_Detection"/>,
           a Knowledge Graph can be created describing the relationship between
-          the network state and the observed symptom.</t>
+          the network state and the observed Symptom.</t>
         </section>
       </section>
     </section>
@@ -511,9 +493,9 @@
 
         <t>As the service lives on, the configuration may be adapted as a
         result of an evolution of the profiling being performed.
-        Postmortem analysis are produced as a result of events
+        Postmortem analysis are produced as a result of Events
         impacting the service, or the occurrence of false positives
-        raised by the alarm system. These postmortem analysis can lead to improvements 
+        raised by the Alarm system. These postmortem analysis can lead to improvements 
         of the deployed profiles parameters and creation of new customer profiles.</t>
       </section>
 
@@ -558,7 +540,7 @@
       <section anchor="Arch_SDD" title="Service Disruption Detection">
         <t>Service Disruption Detection processes the aggregated network data
         in order to decide whether a service is degraded to the point where
-        network operation needs to be alerted of an ongoing problem within the
+        network operation needs to be alerted of an ongoing Problem within the
         network.</t>
 
         <t>Two key aspects need to be considered when designing the SDD
@@ -568,8 +550,8 @@
         Second, the algorithms used to make a decision to alert the operator
         need to be designed in such a way that the operator can trust that a
         targeted Service Disruption will be detected (no false negatives),
-        while not spamming the operator with alarms that do not reflect an
-        actual issue within the network (false positives) leading to alarm
+        while not spamming the operator with Alarms that do not reflect an
+        actual issue within the network (false positives) leading to Alarm
         fatigue.</t>
 
         <t>Two approaches are typically followed to present the data to the
@@ -611,11 +593,11 @@
           target="Outlier_Detection"/>.</t>
 
           <t>When one of the strategies applied for a profile detects a
-          concerning global outlier or collective outlier, an alarm needs to be
+          concerning global outlier or collective outlier, an Alarm needs to be
           raised.</t>
 
           <t>Depending on the implementation of the architecture, a scheduler
-          may be needed in order to orchestrate the evaluation of the alarm
+          may be needed in order to orchestrate the evaluation of the Alarm
           levels for each strategy applied for a profile, for all service
           instances associated with such profile.</t>
         </section>
@@ -646,7 +628,7 @@
       <section anchor="Arch_Alarm" title="Alarm">
         <t>When the SDD component decides that a service is undergoing a
         disruption, a relevant-state change notification needs to be sent to
-        the alarm and problem management system as shown in Figure 4 in <xref
+        the Alarm and Problem management system as shown in Figure 4 in <xref
         section="3" sectionFormat="of" target="I-D.ietf-nmop-terminology"/>.
         Multiple practical aspects need to be taken into account in this
         component.</t>
@@ -655,7 +637,7 @@
         component runs, the relevant-state change mechanism should not create
         multiple notifications to the operator, so as to not overwhelm the
         management of the issue. However, the information provided along with
-        the alarm should be kept up to date during the full duration of the
+        the Alarm should be kept up to date during the full duration of the
         issue.</t>
       </section>
 
@@ -695,16 +677,16 @@
         iteratively, looping over three main phases: detection, validation and
         refinement.</t>
 
-        <t>The Detection phase produces the alarms that are sent to the Alarm
+        <t>The Detection phase produces the Alarms that are sent to the Alarm
         and Problem Management System and at the same time it stores the
-        network anomaly and symptom labels into the Label Store. This enables
+        network anomaly and Symptom labels into the Label Store. This enables
         network engineers to review the labels to validate and edit them as
         needed.</t>
 
         <t>The Validation stage is typically performed by network engineers
-        reviewing the results of the detection and indicating which symptoms
+        reviewing the results of the detection and indicating which Symptoms
         and network anomalies have been useful for the identification of
-        problems in the network. The original labels from the Service
+        Problems in the network. The original labels from the Service
         Disruption Detection are analyzed and an updated set of more accurate
         labels is provided back to the label store.</t>
 
@@ -719,9 +701,9 @@
         <t>When a service disruption has been detected, it is essential for
         the human operator to be able to analyze the data which led to the
         raising of an Alarm. It is thus important that a SDDS preserves both
-        the data which led to the creation of the alarm as well as human
+        the data which led to the creation of the Alarm as well as human
         understandable information on why the data led to the raising of an
-        alarm.</t>
+        Alarm.</t>
 
         <t>In early stages of operations or when experimenting with a SDDS, it
         is common that the parameters used for SDD are to be fined tuned. This
