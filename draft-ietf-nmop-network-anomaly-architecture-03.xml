@@ -104,7 +104,7 @@
       </address>
     </author>
 
-    <date day="20" month="April" year="2025"/>
+    <date day="21" month="April" year="2025"/>
 
     <area>Operations and Management</area>
 
@@ -453,7 +453,7 @@
           outlier pattern semantics in <xref section="4"
 					sectionFormat="of"
           target="I-D.netana-nmop-network-anomaly-lifecycle"/>. Both are
-					expressed in YANG service delivery models.</t>
+					expressed in YANG Service Delivery Models.</t>
 		  
           <t>However the semantic triples could also be expressed with
 					the Semantic Web Technology Stack in RDF, RDFS and OWL
