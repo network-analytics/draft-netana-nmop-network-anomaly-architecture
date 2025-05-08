@@ -104,7 +104,7 @@
       </address>
     </author>
 
-    <date day="21" month="April" year="2025"/>
+    <date day="08" month="May" year="2025"/>
 
     <area>Operations and Management</area>
 
@@ -939,7 +939,7 @@
           <date month="February" year="2014"/>
         </front>
         <refcontent>W3 Consortium</refcontent>
-      </reference>	  
+      </reference>
     </references>
   </back>
 </rfc>
