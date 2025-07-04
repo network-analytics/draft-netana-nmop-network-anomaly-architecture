@@ -242,7 +242,7 @@
 
         <t>Additionally it makes use of the terms defined in <xref
         target="I-D.ietf-nmop-terminology"/>, <xref
-        target="I-D.netana-nmop-network-anomaly-lifecycle"/> and
+        target="I-D.ietf-nmop-network-anomaly-lifecycle"/> and
 				<xref target="RFC8969"/>.</t>
 
         <t>The following terms are used as defined in <xref
@@ -278,7 +278,7 @@
         problem, symptom and cause.</t>
 
         <t>The following terms are used as defined in <xref
-        target="I-D.netana-nmop-network-anomaly-lifecycle"/> :</t>
+        target="I-D.ietf-nmop-network-anomaly-lifecycle"/> :</t>
 
         <t><list style="symbols">
             <t>False Positive</t>
@@ -449,10 +449,10 @@
 
           <t>Symptom definitions are described in <xref section="3"
           sectionFormat="of"
-          target="I-D.netana-nmop-network-anomaly-semantics"/> and
+          target="I-D.ietf-nmop-network-anomaly-semantics"/> and
           outlier pattern semantics in <xref section="4"
 					sectionFormat="of"
-          target="I-D.netana-nmop-network-anomaly-lifecycle"/>. Both are
+          target="I-D.ietf-nmop-network-anomaly-lifecycle"/>. Both are
 					expressed in YANG Service Models.</t>
 		  
           <t>However the semantic triples could also be expressed with
@@ -744,7 +744,7 @@
 
         <t>From an Anomaly Detection Lifecycle point of view, as
 				described in <xref
-				target="I-D.netana-nmop-network-anomaly-lifecycle"/>, the
+				target="I-D.ietf-nmop-network-anomaly-lifecycle"/>, the
 				Service Disruption Detection Configuration evolves over time,
         iteratively, looping over three main phases: detection,
 				validation and refinement.</t>
@@ -854,9 +854,9 @@
 
       <?rfc include='https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-nmop-terminology.xml'?>
 
-      <?rfc include='https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.netana-nmop-network-anomaly-semantics.xml'?>
+      <?rfc include='https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-nmop-network-anomaly-semantics.xml'?>
 
-      <?rfc include='https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.netana-nmop-network-anomaly-lifecycle.xml'?>
+      <?rfc include='https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-nmop-network-anomaly-lifecycle.xml'?>
 
       <?rfc include='https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-nmop-simap-concept.xml'?>
 

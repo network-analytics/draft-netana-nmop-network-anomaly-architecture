@@ -235,7 +235,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
    Additionally it makes use of the terms defined in
    [I-D.ietf-nmop-terminology],
-   [I-D.netana-nmop-network-anomaly-lifecycle] and [RFC8969].
+   [I-D.ietf-nmop-network-anomaly-lifecycle] and [RFC8969].
 
    The following terms are used as defined in
    [I-D.ietf-nmop-terminology] :
@@ -265,7 +265,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
    relationships between problem, symptom and cause.
 
    The following terms are used as defined in
-   [I-D.netana-nmop-network-anomaly-lifecycle] :
+   [I-D.ietf-nmop-network-anomaly-lifecycle] :
 
    *  False Positive
 
@@ -412,10 +412,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
    trigger, which defines what triggered that change.
 
    Symptom definitions are described in Section 3 of
-   [I-D.netana-nmop-network-anomaly-semantics] and outlier pattern
-   semantics in Section 4 of
-   [I-D.netana-nmop-network-anomaly-lifecycle].  Both are expressed in
-   YANG Service Models.
+   [I-D.ietf-nmop-network-anomaly-semantics] and outlier pattern
+   semantics in Section 4 of [I-D.ietf-nmop-network-anomaly-lifecycle].
+   Both are expressed in YANG Service Models.
 
    However the semantic triples could also be expressed with the
    Semantic Web Technology Stack in RDF, RDFS and OWL definitions as
@@ -442,6 +441,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
     |    +---------+                     +-------------------+
     |      |                                      ^     Stream
     |      |                                      |
+    |      |       +---------+           +-------------------+
 
 
 
@@ -450,7 +450,6 @@ Graf, et al.             Expires 5 January 2026                 [Page 8]
 Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
-    |      |       +---------+           +-------------------+
     |      |       | Post-   | Stream    |   Message Broker  |
     |      |       | mortem  | <-------- |  with Analytical  |
     |      |       | System  |           |    Network Data   |
@@ -493,6 +492,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
       Figure 1: Service Disruption Detection System Architecture
+
 
 
 
@@ -733,7 +733,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
    Validation and refinement are performed during Postmortem analysis.
 
    From an Anomaly Detection Lifecycle point of view, as described in
-   [I-D.netana-nmop-network-anomaly-lifecycle], the Service Disruption
+   [I-D.ietf-nmop-network-anomaly-lifecycle], the Service Disruption
    Detection Configuration evolves over time, iteratively, looping over
    three main phases: detection, validation and refinement.
 
@@ -847,6 +847,21 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
               October 2024, <https://datatracker.ietf.org/doc/html/
               draft-havel-nmop-digital-map-02>.
 
+   [I-D.ietf-nmop-network-anomaly-lifecycle]
+              Riccobene, V., Graf, T., Du, W., and A. H. Feng, "An
+              Experiment: Network Anomaly Lifecycle", Work in Progress,
+              Internet-Draft, draft-ietf-nmop-network-anomaly-lifecycle-
+              03, 8 May 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-nmop-network-anomaly-lifecycle-03>.
+
+   [I-D.ietf-nmop-network-anomaly-semantics]
+              Graf, T., Du, W., Feng, A. H., and V. Riccobene, "Semantic
+              Metadata Annotation for Network Anomaly Detection", Work
+              in Progress, Internet-Draft, draft-ietf-nmop-network-
+              anomaly-semantics-03, 8 May 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-nmop-
+              network-anomaly-semantics-03>.
+
    [I-D.ietf-nmop-simap-concept]
               Havel, O., Claise, B., de Dios, O. G., and T. Graf,
               "SIMAP: Concept, Requirements, and Use Cases", Work in
@@ -869,26 +884,11 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
               March 2025, <https://datatracker.ietf.org/doc/html/draft-
               mackey-nmop-kg-for-netops-02>.
 
-   [I-D.netana-nmop-network-anomaly-lifecycle]
-              Riccobene, V., Roberto, A., Graf, T., Du, W., and A. H.
-              Feng, "An Experiment: Network Anomaly Lifecycle", Work in
-              Progress, Internet-Draft, draft-netana-nmop-network-
-              anomaly-lifecycle-05, 3 November 2024,
-              <https://datatracker.ietf.org/doc/html/draft-netana-nmop-
-              network-anomaly-lifecycle-05>.
-
-   [I-D.netana-nmop-network-anomaly-semantics]
-              Graf, T., Du, W., Feng, A. H., Riccobene, V., and A.
-              Roberto, "Semantic Metadata Annotation for Network Anomaly
-              Detection", Work in Progress, Internet-Draft, draft-
-              netana-nmop-network-anomaly-semantics-04, 3 November 2024,
-              <https://datatracker.ietf.org/doc/html/draft-netana-nmop-
-              network-anomaly-semantics-04>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
+
 
 
 
