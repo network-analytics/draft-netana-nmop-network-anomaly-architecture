@@ -5,10 +5,10 @@
 NMOP                                                             T. Graf
 Internet-Draft                                                     W. Du
 Intended status: Informational                                  Swisscom
-Expires: 16 January 2026                                     P. Francois
+Expires: 11 March 2026                                       P. Francois
                                                            A. Huang Feng
                                                                INSA-Lyon
-                                                            15 July 2025
+                                                        7 September 2025
 
 
         A Framework for a Network Anomaly Detection Architecture
@@ -53,9 +53,9 @@ Status of This Memo
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 1]
+Graf, et al.              Expires 11 March 2026                 [Page 1]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
    Internet-Drafts are draft documents valid for a maximum of six months
@@ -63,7 +63,7 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 January 2026.
+   This Internet-Draft will expire on 11 March 2026.
 
 Copyright Notice
 
@@ -109,12 +109,12 @@ Table of Contents
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 2]
+Graf, et al.              Expires 11 March 2026                 [Page 2]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
 
 1.  Introduction
 
@@ -165,9 +165,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 3]
+Graf, et al.              Expires 11 March 2026                 [Page 3]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
    Management plane relates to network node entities.  Where control
@@ -221,9 +221,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 4]
+Graf, et al.              Expires 11 March 2026                 [Page 4]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
 2.1.  Terminology
@@ -277,9 +277,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 5]
+Graf, et al.              Expires 11 March 2026                 [Page 5]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
    *  False Positive
@@ -333,9 +333,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 6]
+Graf, et al.              Expires 11 March 2026                 [Page 6]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
    For each outlier a Confident and a Concern Score between 0 and 1 is
@@ -389,9 +389,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 7]
+Graf, et al.              Expires 11 March 2026                 [Page 7]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
 2.4.1.  Operational Network Data
@@ -445,9 +445,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 8]
+Graf, et al.              Expires 11 March 2026                 [Page 8]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
 3.  Elements of the Architecture
@@ -501,9 +501,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026                [Page 9]
+Graf, et al.              Expires 11 March 2026                 [Page 9]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
     (1)-------+                     (11)----------------+
@@ -557,9 +557,9 @@ Subscribe                   Publish        |  |  |
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 10]
+Graf, et al.              Expires 11 March 2026                [Page 10]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
       Figure 1: Service Disruption Detection System Architecture
@@ -613,9 +613,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 11]
+Graf, et al.              Expires 11 March 2026                [Page 11]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
 3.4.  Operational Data Aggregation
@@ -669,9 +669,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 12]
+Graf, et al.              Expires 11 March 2026                [Page 12]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
    For SDD per-se, two families of algorithms can be decided upon.
@@ -725,9 +725,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 13]
+Graf, et al.              Expires 11 March 2026                [Page 13]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
 3.5.4.  Machine Learning
@@ -781,9 +781,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 14]
+Graf, et al.              Expires 11 March 2026                [Page 14]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
     Network Anomaly
@@ -837,9 +837,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 15]
+Graf, et al.              Expires 11 March 2026                [Page 15]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
 3.8.  Replaying
@@ -893,9 +893,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 16]
+Graf, et al.              Expires 11 March 2026                [Page 16]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
 5.  Security Considerations
@@ -949,9 +949,9 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-Graf, et al.             Expires 16 January 2026               [Page 17]
+Graf, et al.              Expires 11 March 2026                [Page 17]
 
-Internet-Draft     Network Anomaly Detection Framework         July 2025
+Internet-Draft     Network Anomaly Detection Framework    September 2025
 
 
    [I-D.ietf-nmop-simap-concept]
@@ -965,16 +965,17 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
               Davis, N., Farrel, A., Graf, T., Wu, Q., and C. Yu, "Some
               Key Terms for Network Fault and Problem Management", Work
               in Progress, Internet-Draft, draft-ietf-nmop-terminology-
-              19, 18 June 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-nmop-terminology-19>.
+              23, 18 August 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-nmop-
+              terminology-23>.
 
    [I-D.mackey-nmop-kg-for-netops]
               Mackey, M., Claise, B., Graf, T., Keller, H., Voyer, D.,
               Lucente, P., and I. D. Martinez-Casanueva, "Knowledge
               Graph Framework for Network Operations", Work in Progress,
-              Internet-Draft, draft-mackey-nmop-kg-for-netops-02, 4
-              March 2025, <https://datatracker.ietf.org/doc/html/draft-
-              mackey-nmop-kg-for-netops-02>.
+              Internet-Draft, draft-mackey-nmop-kg-for-netops-03, 2
+              September 2025, <https://datatracker.ietf.org/doc/html/
+              draft-mackey-nmop-kg-for-netops-03>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -997,18 +998,23 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 8.2.  Informative References
 
+
+
+
+
+
+
+
+Graf, et al.              Expires 11 March 2026                [Page 18]
+
+Internet-Draft     Network Anomaly Detection Framework    September 2025
+
+
    [Ahf23]    Huang Feng, A., "Daisy: Practical Anomaly Detection in
               large BGP/MPLS and BGP/SRv6 VPN Networks", IETF 117,
               Applied Networking Research Workshop,
               DOI 10.1145/3606464.3606470, July 2023,
               <https://hal.science/hal-04307611>.
-
-
-
-Graf, et al.             Expires 16 January 2026               [Page 18]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2025
-
 
    [Deh22]    Dehghani, Z., "Data Mesh", O'Reilly Media,
               ISBN 9781492092391, March 2022,
@@ -1051,20 +1057,21 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
               <https://www.researchgate.net/
               publication/220565847_Anomaly_Detection_A_Survey>.
 
+
+
+
+
+Graf, et al.              Expires 11 March 2026                [Page 19]
+
+Internet-Draft     Network Anomaly Detection Framework    September 2025
+
+
    [W3C-RDF-concept-triples]
               Cyganiak, R., Wood, D., and M. Lanthaler, "W3C RDF concept
               semantic triples", W3 Consortium, February 2014,
               <https://www.w3.org/TR/rdf-concepts/#section-triples>.
 
 Authors' Addresses
-
-
-
-
-Graf, et al.             Expires 16 January 2026               [Page 19]
-
-Internet-Draft     Network Anomaly Detection Framework         July 2025
-
 
    Thomas Graf
    Swisscom
@@ -1110,11 +1117,4 @@ Internet-Draft     Network Anomaly Detection Framework         July 2025
 
 
 
-
-
-
-
-
-
-
-Graf, et al.             Expires 16 January 2026               [Page 20]
+Graf, et al.              Expires 11 March 2026                [Page 20]
