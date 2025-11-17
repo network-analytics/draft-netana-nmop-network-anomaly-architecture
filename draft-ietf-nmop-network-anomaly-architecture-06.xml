@@ -424,22 +424,6 @@
 				ontology describing symptoms.</t>
       </section>
 
-      <section anchor="Machine_Learning" title="Machine Learning">
-        <t>Machine learning-based anomaly detection can also be
-   			seamlessly integrated into such SDDS. Machine learning is
-   			commonly used for detecting outliers or anomalies. Typically,
-   			unsupervised learning is widely recognized for its
-   			applicability, given the inherent characteristics of network
-   			data. See <xref	target="VAP09"/>. Although machine learning
-   			requires a sizeable amount of high-quality data and
-   			considerable advanced training, the advantages it offers make
-   			these requirements worthwhile. The power of this approach lies
-   			in its generalizability, robustness, ability to simplify the
-   			fine-tuning process, and most importantly, its capability to
-   			identify anomaly patterns that might go unnoticed to the human
-   			observer.</t>
-      </section>
-
       <section anchor="Data_Mesh" title="Data Mesh">
         <t>The <xref target="Deh22">Data Mesh</xref> Architecture
         distinguishes between operational and analytical data.
@@ -728,6 +712,22 @@ Subscribe                   Publish        |  |  |
 					scheduler may be needed in order to orchestrate the evaluation
 					of the Alarm levels for each strategy applied for a profile,
 					for all service instances associated with such profile.</t>
+        </section>
+
+        <section anchor="Machine_Learning" title="Machine Learning">
+          <t>Machine learning-based anomaly detection can also be
+     			seamlessly integrated into such SDDS. Machine learning is
+     			commonly used for detecting outliers or anomalies. Typically,
+     			unsupervised learning is widely recognized for its
+     			applicability, given the inherent characteristics of network
+     			data. See <xref	target="VAP09"/>. Although machine learning
+     			requires a sizeable amount of high-quality data and
+     			considerable advanced training, the advantages it offers make
+     			these requirements worthwhile. The power of this approach lies
+     			in its generalizability, robustness, ability to simplify the
+     			fine-tuning process, and most importantly, its capability to
+     			identify anomaly patterns that might go unnoticed to the human
+     			observer.</t>
         </section>
 
         <section anchor="Storage" title="Storage">
