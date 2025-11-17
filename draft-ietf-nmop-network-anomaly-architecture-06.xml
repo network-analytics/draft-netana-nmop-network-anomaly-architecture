@@ -104,7 +104,7 @@
       </address>
     </author>
 
-    <date day="08" month="September" year="2025"/>
+    <date day="17" month="November" year="2025"/>
 
     <area>Operations and Management</area>
 
@@ -225,8 +225,16 @@
 				intent into account nor does it verify whether the intent is
 				being achieved all the time. Changes to the service intent
 				causing service disruptions are therefore considered service
-				disruptions where on monitoring systems taking the intent into
-				account this is considered as intended.</t>
+				disruptions. On monitoring systems which take the intent into
+				account, this is considered as intended.</t>
+
+        <t>Also out of scope of this document are a gradual degredation
+				of a connectivity service over a long period of time. An example
+				would be optical fiber degredation which lead to malform packets
+				on IP layer and therefore increases packet drops steadily.
+				Outlier detection techniques can be applied here as well but
+				instead of taking the network model, the component type and
+				characterstics would be taken into context.</t>
       </section>
     </section>
 
@@ -352,12 +360,12 @@
 					contextual or a global sense), but the group, taking all the
 					data points together, is. Note that the group can be made
 					within a single time series (a sequence of data points is
-					anomalous) or across multiple metrics (e.g. if looking at two
-					metrics together, the combined behavior turns out to be
-					anomalous). In Network Telemetry time series, one way this can
-          manifest is that the amount of network paths and interface
-					State changes matches the time range when the forwarded packet
-					volume decreases as a group.</dd>
+					anomalous) or across multiple types of metrics (e.g. if
+					looking at two metrics together, the combined behavior turns
+					out to be anomalous). In Network Telemetry time series, one
+					way this can manifest is that the amount of network paths and
+					interface State changes matches the time range when the
+					forwarded packet volume decreases as a group.</dd>
         </dl>
 
         <t>For each outlier a Confidence and a Concern Score between 0
@@ -367,22 +375,27 @@
         the probability that observed outlier is impacting the
 				forwarding of the customer packets negatively. Combined together
 				raising the Relevance of the observed events. <xref
-				target="VAP09">Anomaly detection: A survey</xref> gives
-				additional details on anomaly detection and its types.</t>
+				target="VAP09">Anomaly detection: A survey</xref> provides and
+				discusses an overview on different anomaly detection techniques
+				and the outlier detection approach adopted by each.</t>
       </section>
+
+
 
       <section anchor="Knowledge_Based_Detection"
                title="Knowledge Based Detection">
         <t>Knowledge-based anomaly detection, a superset of rule-based
-				anomaly detection, is a technique used to identify anomalies or
-				outliers by comparing them against predefined rules or patterns.
-				This approach relies on the use of domain-specific knowledge to
-				set standards, thresholds, or rules for what is considered
-				"normal" behavior. Traditionally, these rules are established
-				manually by a knowledgeable network engineer. Forward-looking,
-				these rules can be expressed using human and machine readable
-				network protocol derived Symptoms and patterns defined in
-				ontologies.</t>
+				anomaly detection and a subset of semantic-based, <xref
+				target="ASNL25">Knowledge-based anomaly detection: Survey,
+				challenges, and future directions</xref>, is a technique used to
+				identify anomalies or outliers by comparing them against
+				predefined rules or patterns. This approach relies on the use of
+				domain-specific knowledge to set standards, thresholds, or rules
+				for what is considered "normal" behavior. Traditionally, these
+				rules are established manually by a knowledgeable network
+				engineer. Forward-looking, these rules can be expressed using
+				human and machine readable network protocol derived Symptoms and
+				patterns defined in ontologies.</t>
 
         <t>Additionally, in the context of network anomaly detection,
 				the knowledge-based approach works hand in hand with the
@@ -404,12 +417,27 @@
         <t>These relationships can also be modeled in Knowledge Graphs
 				<xref section="5" sectionFormat="of"
 				target="I-D.mackey-nmop-kg-for-netops"/> using semantic triples
-				<xref target="W3C-RDF-concept-triples"/>, where with ontologies 
-				those semantic triples are made machine and human readable.
-				<xref target="Operational_Network_Data"/> describes which 
-				operational network data is being observed and <xref
-				target="Analyticsl_Observed_Symptoms"/> describes what Symptoms
-				are being observed.</t>
+				<xref target="W3C-RDF-concept-triples"/>, where with ontologies,
+				due to its declarative form, those semantic triples are 
+				machine and human readable. See <xref
+				target="Analyticsl_Observed_Symptoms"/> as an example for an
+				ontology describing symptoms.</t>
+      </section>
+
+      <section anchor="Machine_Learning" title="Machine Learning">
+        <t>Machine learning-based anomaly detection can also be
+   			seamlessly integrated into such SDDS. Machine learning is
+   			commonly used for detecting outliers or anomalies. Typically,
+   			unsupervised learning is widely recognized for its
+   			applicability, given the inherent characteristics of network
+   			data. See <xref	target="VAP09"/>. Although machine learning
+   			requires a sizeable amount of high-quality data and
+   			considerable advanced training, the advantages it offers make
+   			these requirements worthwhile. The power of this approach lies
+   			in its generalizability, robustness, ability to simplify the
+   			fine-tuning process, and most importantly, its capability to
+   			identify anomaly patterns that might go unnoticed to the human
+   			observer.</t>
       </section>
 
       <section anchor="Data_Mesh" title="Data Mesh">
@@ -453,7 +481,7 @@
 						packets and its data-plane context. For example, dropped
 						packet count modelled in IPFIX entity forwardingStatus(IE89)
 						<xref target="RFC7270"/> and packetDeltaCount(IE2) <xref
-            target="RFC5102"/> and exportet with IPFIX <xref
+            target="RFC5102"/> and exported with IPFIX <xref
             target="RFC7011"/>.</dd>
           </dl>
         </section>
@@ -467,9 +495,9 @@
 
           <t>The observed Symptoms are categorized into semantic triples
           <xref target="W3C-RDF-concept-triples"/>: action,
-          reason, trigger. The object is the action, decribing
+          reason, trigger. The object is the action, describing
           the change in the network. The reason is the predicate, 
-          defining why this changed occured and the subject is the
+          defining why this change occured and the subject is the
           trigger, which defines what triggered that change.</t>
 
           <t>Symptom definitions are described in <xref section="3"
@@ -480,12 +508,13 @@
           target="I-D.ietf-nmop-network-anomaly-lifecycle"/>. Both are
 					expressed in YANG Service Models.</t>
 		  
-          <t>However the semantic triples could also be expressed with
-					the Semantic Web Technology Stack in RDF, RDFS and OWL
+          <t>However the semantic could also be expressed with the
+					Semantic Web Technology Stack in RDF, RDFS and OWL
 					definitions as described in <xref section="6"
 					sectionFormat="of" target="I-D.mackey-nmop-kg-for-netops"/>.
 					Together with the ontology definitions described in <xref
-					target="Knowledge_Based_Detection"/> of this document, a
+					section="3" sectionFormat="of"
+          target="I-D.ietf-nmop-network-anomaly-semantics"/>, a
 					Knowledge Graph can be created describing the relationship
 					between the network state and the observed Symptom.</t>
         </section>
@@ -494,11 +523,12 @@
 
     <section anchor="Elements_of_the_Architecture"
              title="Elements of the Architecture">
-      <t>A system architecture aimed at detecting service disruptions is
-      typically built upon multiple components, for which design choices
-			need to be made. In this section, we describe the main components
-			of the architecture, and delve into considerations to be made when
-			designing such componenents in an implementation.</t>
+      <t>The service disruption detection system architecture is aimed
+			at detecting service disruptions and is built upon multiple
+			components, for which design choices need to be made. In this
+			section, we describe the main components of the architecture, and
+			delve into considerations to be made when designing such
+			componenents in an implementation.</t>
 
       <t>The system architecture is illustrated in <xref 
 			target="fig_arch"/> and its main components are described in the
@@ -580,8 +610,9 @@ Subscribe                   Publish        |  |  |
 				the profiling being performed. Postmortem analysis are produced
 				as a result of Events impacting the service, or the occurrence
 				of false positives raised by the Alarm system. These postmortem
-				analysis can lead to improvements of the deployed profiles
-				parameters and creation of new customer profiles.</t>
+				analysis can improve the deployed profiles parameters and
+				creation of new customer profiles. See upcoming section <xref
+				target="Profiling"/> for details on profiling.</t>
       </section>
 
       <section anchor="Arch_Collection" title="Operational Data
@@ -608,9 +639,9 @@ Subscribe                   Publish        |  |  |
       <section anchor="Arch_Aggregation" title="Operational Data
 			Aggregation">
         <t>Aggregation, (5) in <xref target="fig_arch"/>, is the process
-				of producing data upon which detection of a service disruption
-				can be performed, based on collected network monitoring data.
-				</t>
+				of producing data sets based on collected network monitoring
+				data upon which detection of a service disruption can be
+				performed by filtering or aggregating.</t>
 
         <t>Pre-processing of collected network monitoring data is 
 				usually performed to reduce input for the Service Disruption
@@ -622,18 +653,18 @@ Subscribe                   Publish        |  |  |
 				and instead be aggregated into a coarser dimension for SDD
 				execution.</t>
 
-        <t>A retention time also needs to be decided upon for Aggregated
-				data. Note that the retention time must be set carefully, in
-				accordance with the replay ability requirement discussed in <xref
-        target="Arch_Replaying"/>.</t>
+        <t>A retention time for the operational data needs to be decided
+				on Aggregated data and should reflect the expected further use.
+				As example, the retention time must be set in accordance with
+				the replay ability requirement discussed in <xref
+				target="Arch_Replaying"/>.</t>
       </section>
 
       <section anchor="Arch_SDD" title="Service Disruption Detection">
         <t>Service Disruption Detection processes, (6) in <xref
-				target="fig_arch"/>, the aggregated network data in order to
-				decide whether a service is degraded to the point where network
-				operation needs to be alerted of an ongoing Problem within the
-				network.</t>
+				target="fig_arch"/>, decide whether a service might be
+				degraded to the point where network operation needs to be
+				alerted of an ongoing Problem within the network.</t>
 
         <t>Two key aspects need to be considered when designing the SDD
         component. First, the way the data is being processed needs to
@@ -656,7 +687,7 @@ Subscribe                   Publish        |  |  |
         <t>For SDD per-se, two families of algorithms can be decided
 				upon. First, knowledge based detection approaches can be used,
 				mimicking the process that human operators follow when looking
-				at the data. Machine Learning based approaches to detect
+				at the data. Second, Machine Learning based approaches to detect
         outliers based from prior trained operational network data.</t>
 
         <section anchor="Modeling" title="Network Modeling">
@@ -675,9 +706,10 @@ Subscribe                   Publish        |  |  |
 					because each customer has a different usage pattern, they need
 					to be defined according to pre-established service profiles, 
 					(8) in <xref target="fig_arch"/>. Processing of monitoring
-					data can be performed in order to associate each service with
-					a profile. External knowledge on the customer can also help in
-					associating a service with a profile.</t>
+					data can be performed in order to associate patterns into
+					clusters and associated them with profiles. External knowledge
+					on customer types can also help in associating clusters with
+					profiles.</t>
         </section>
 
         <section anchor="Strategies" title="Detection Strategies">
@@ -698,29 +730,14 @@ Subscribe                   Publish        |  |  |
 					for all service instances associated with such profile.</t>
         </section>
 
-        <section anchor="RB_vs_ML" title="Machine Learning">
-          <t>Machine learning-based anomaly detection can also be
-					seamlessly integrated into such SDDS. Machine learning is
-					commonly used for detecting outliers or anomalies. Typically,
-					unsupervised learning is widely recognized for its
-					applicability, given the inherent characteristics of network
-					data. See <xref	target="VAP09"/>. Although machine learning
-					requires a sizeable amount of high-quality data and
-					considerable advanced training, the advantages it offers make
-					these requirements worthwhile. The power of this approach lies
-					in its generalizability, robustness, ability to simplify the
-					fine-tuning process, and most importantly, its capability to
-					identify anomaly patterns that might go unnoticed to the human
-					observer.</t>
-        </section>
-
         <section anchor="Storage" title="Storage">
           <t>Storage, (10) in <xref target="fig_arch"/>, may be required
 					to execute SDD, as some algorithms may be relying on
 					historical (aggregated) monitoring data in order to detect
-					anomalies. Careful considerations need to be made on the level
-					at which such data is stored, as slow access to such data may
-					be detrimental to the reactivity of the system.</t>
+					anomalies. The cardinality,granularity and retention time of
+					historical data should be carefully considered to avoid slow 
+					and costly retrieval of this information if required for SDD
+					analysis.</t>
         </section>
       </section>
 
@@ -948,6 +965,25 @@ Subscribe                   Publish        |  |  |
         <seriesInfo name="DOI" value="10.1145/1541880.1541882"/>
 
         <refcontent>ACM Computing Surveys 41</refcontent>
+      </reference>
+
+      <reference anchor="ASNL25"
+                 target="https://hal.science/hal-05055886">
+        <front>
+          <title>Knowledge-based anomaly detection: Survey, challenges, and future directions</title>
+
+          <author fullname="Abdul Qadir Khan" initials="A." surname="Qadir Khan"/>
+
+          <author fullname="Saad El Jaouhari" initials="S." surname="El Jaouhari"/>
+
+          <author fullname="Nouredine Tamani" initials="N." surname="Tamani"/>
+
+          <author fullname="Lina Mroueh" initials="L." surname="Mroueh"/>
+
+          <date month="May" year="2025"/>
+        </front>
+
+        <seriesInfo name="DOI" value="10.1016/j.engappai.2024.108996"/>
       </reference>
 
       <reference anchor="Deh22"
