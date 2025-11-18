@@ -104,7 +104,7 @@
       </address>
     </author>
 
-    <date day="17" month="November" year="2025"/>
+    <date day="18" month="November" year="2025"/>
 
     <area>Operations and Management</area>
 
@@ -596,7 +596,7 @@ Subscribe                   Publish        |  |  |
 				of false positives raised by the Alarm system. These postmortem
 				analysis can improve the deployed profiles parameters and
 				creation of new customer profiles. See upcoming section <xref
-				target="Profiling"/> for details on profiling.</t>
+				target="Data_Profiling"/> for details on profiling.</t>
       </section>
 
       <section anchor="Arch_Collection" title="Operational Data
@@ -674,44 +674,71 @@ Subscribe                   Publish        |  |  |
 				at the data. Second, Machine Learning based approaches to detect
         outliers based from prior trained operational network data.</t>
 
-        <section anchor="Modeling" title="Network Modeling">
-          <t>Some input to SDD is made of established knowledge of the
-					network, (7) in <xref target="fig_arch"/>, that is unrelated
-					to the dimensions according to which outlier detection is
-					performed. For example, the knowledge of the network
-					infrastructure may be required to perform some service
-					disruption detection. Such data need to be rendered accessible
-					and updatable for use by SDD. They may come from inventories,
-					or automated gathering of data from the network itself.</t>
-        </section>
+        <section anchor="Knowledge_Based" title="Knowledge Based">
+				<t>Knowledge based detection is comprised of several types of
+				knowledge sources such as domain knowledge from network
+				engineers <xref target="Expert_Rules"/> understanding the
+				mechanics of network protocols and their implications, knowledge
+				from relationships in the network topology <xref
+				target="Network_Modeling"/>, knowledge derived from <xref
+				target="Data_Profiling"/> where customer, human behavioral
+				related aspects are taken into context and finally in
+				<xref target="Detection_Strategies"/> a combination of that
+				knowledge is being applied.</t>
+				
+          <section anchor="Expert_Rules" title="Expert Rules">
+            <t>Some input to SDD is made of established knowledge network
+  					engineers, (2) in <xref target="fig_arch"/>. For example, 
+						that sudden drop spikes in the forwarding plane are most
+						likely attributed to changes in the routing topology. Or
+						that drops in the fowarding plane can manifest in the
+						increase of flow counts in the data plane due to the implied
+						congestion and re-establishment of application transport
+						sessions.</t>
+          </section>
 
-        <section anchor="Profiling" title="Data Profiling">
-          <t>As rules cannot be crafted specifically for each customer
-					because each customer has a different usage pattern, they need
-					to be defined according to pre-established service profiles, 
-					(8) in <xref target="fig_arch"/>. Processing of monitoring
-					data can be performed in order to associate patterns into
-					clusters and associated them with profiles. External knowledge
-					on customer types can also help in associating clusters with
-					profiles.</t>
-        </section>
-
-        <section anchor="Strategies" title="Detection Strategies">
-          <t>For a profile, a set of strategies is defined. Each
-					strategy captures one approach to look at the data (as a human
-					operator does) to observe if an abnormal situation is arising.
-					Strategies are defined as a function of observed outliers as
-					defined in <xref target="Outlier_Detection"/>, (9) in <xref
-					target="fig_arch"/>.</t>
-
-          <t>When one of the strategies applied for a profile detects a
-          concerning global outlier or collective outlier, an Alarm
-					MUST be raised.</t>
-
-          <t>Depending on the implementation of the architecture, a
-					scheduler may be needed in order to orchestrate the evaluation
-					of the Alarm levels for each strategy applied for a profile,
-					for all service instances associated with such profile.</t>
+          <section anchor="Network_Modeling" title="Network Modeling">
+            <t>Some input to SDD is made of established knowledge of the
+  					network, (7) in <xref target="fig_arch"/>, that is unrelated
+  					to the dimensions according to which outlier detection is
+  					performed. For example, the knowledge of the network
+  					infrastructure may be required to perform some service
+  					disruption detection. Such data need to be rendered
+						accessible and updatable for use by SDD. They may come from
+						inventories, or automated gathering of data from the network
+						itself.</t>
+          </section>
+  
+          <section anchor="Data_Profiling" title="Data Profiling">
+            <t>As rules cannot be crafted specifically for each customer
+  					because each customer has a different usage pattern, they
+						need to be defined according to pre-established service
+						profiles, (8) in <xref target="fig_arch"/>. Processing of
+						monitoring data can be performed in order to associate
+						patterns into clusters and associated them with profiles.
+						External knowledge on customer types can also help in
+						associating clusters with profiles.</t>
+          </section>
+  
+          <section anchor="Detection_Strategies"
+					title="Detection Strategies">
+            <t>For a profile, a set of strategies is defined. Each
+  					strategy captures one approach to look at the data (as a
+						human operator does) to observe if an abnormal situation is
+						arising. Strategies are defined as a function of observed
+						outliers as defined in <xref target="Outlier_Detection"/>,
+						(9) in <xref target="fig_arch"/>.</t>
+  
+            <t>When one of the strategies applied for a profile detects
+						a concerning global outlier or collective outlier, an Alarm
+  					MUST be raised.</t>
+  
+            <t>Depending on the implementation of the architecture, a
+  					scheduler may be needed in order to orchestrate the
+						evaluation of the Alarm levels for each strategy applied for
+						a profile, for all service instances associated with such
+						profile.</t>
+          </section>
         </section>
 
         <section anchor="Machine_Learning" title="Machine Learning">
