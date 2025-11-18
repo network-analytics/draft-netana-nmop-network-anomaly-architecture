@@ -260,6 +260,11 @@
         <t>Service Disruption Detection System (SDDS): A system allowing
 				to perform SDD.</t>
 
+        <t>Rules: Refers to rules defined by domain experts or
+				artifitial intelligence in context of detection strategies.
+				See <xref target="Expert_Rules"/> for details on domain expert
+				rules.</t>
+
         <t>Additionally it makes use of the terms defined in <xref
         target="I-D.ietf-nmop-terminology"/>, <xref
         target="I-D.ietf-nmop-network-anomaly-lifecycle"/> and
@@ -487,7 +492,7 @@
           <t>Symptom definitions are described in <xref section="3"
           sectionFormat="of"
           target="I-D.ietf-nmop-network-anomaly-semantics"/> and
-          outlier pattern semantics in <xref section="4"
+          outlier pattern semantics in <xref section="8"
 					sectionFormat="of"
           target="I-D.ietf-nmop-network-anomaly-lifecycle"/>. Both are
 					expressed in YANG Service Models.</t>
@@ -688,10 +693,10 @@ Subscribe                   Publish        |  |  |
 				
           <section anchor="Expert_Rules" title="Expert Rules">
             <t>Some input to SDD is made of established knowledge network
-  					engineers, (2) in <xref target="fig_arch"/>. For example, 
-						that sudden drop spikes in the forwarding plane are most
-						likely attributed to changes in the routing topology. Or
-						that drops in the fowarding plane can manifest in the
+  					engineers, (2) and (6) in <xref target="fig_arch"/>. For
+						example, that sudden drop spikes in the forwarding plane are
+						most likely attributed to changes in the routing topology.
+						Or that drops in the fowarding plane can manifest in the
 						increase of flow counts in the data plane due to the implied
 						congestion and re-establishment of application transport
 						sessions.</t>

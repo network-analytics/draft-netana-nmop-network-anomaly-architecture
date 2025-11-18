@@ -248,6 +248,10 @@ Internet-Draft     Network Anomaly Detection Framework     November 2025
    Service Disruption Detection System (SDDS): A system allowing to
    perform SDD.
 
+   Rules: Refers to rules defined by domain experts or artifitial
+   intelligence in context of detection strategies.  See Section 3.5.1.1
+   for details on domain expert rules.
+
    Additionally it makes use of the terms defined in
    [I-D.ietf-nmop-terminology],
    [I-D.ietf-nmop-network-anomaly-lifecycle] and [RFC8969].
@@ -269,10 +273,6 @@ Internet-Draft     Network Anomaly Detection Framework     November 2025
 
    *  Alarm
 
-   Figure 2 in Section 3 of [I-D.ietf-nmop-terminology] shows
-   characteristics of observed operational network telemetry metrics.
-
-
 
 
 
@@ -281,6 +281,9 @@ Graf, et al.               Expires 22 May 2026                  [Page 5]
 
 Internet-Draft     Network Anomaly Detection Framework     November 2025
 
+
+   Figure 2 in Section 3 of [I-D.ietf-nmop-terminology] shows
+   characteristics of observed operational network telemetry metrics.
 
    Figure 4 in Section 3 of [I-D.ietf-nmop-terminology] shows
    relationships between, state, relevant state, problem, symptom, cause
@@ -327,9 +330,6 @@ Internet-Draft     Network Anomaly Detection Framework     November 2025
       volume overnight reaches levels which might be totally normal for
       the daytime, but anomalous and unexpected for the nighttime.
 
-   Collective outliers:  An outlier is considered "collective" if the
-
-
 
 
 
@@ -338,6 +338,7 @@ Graf, et al.               Expires 22 May 2026                  [Page 6]
 Internet-Draft     Network Anomaly Detection Framework     November 2025
 
 
+   Collective outliers:  An outlier is considered "collective" if the
       behavior of each single data point that are part of the anomaly
       are within expected ranges (so they are not anomalous in either a
       contextual or a global sense), but the group, taking all the data
@@ -382,7 +383,6 @@ Internet-Draft     Network Anomaly Detection Framework     November 2025
    component can relate to a physical, virtual, or configurational
    entity, or to a sum of packets belonging to a flow being forwarded in
    a network.
-
 
 
 
@@ -458,7 +458,7 @@ Internet-Draft     Network Anomaly Detection Framework     November 2025
 
    Symptom definitions are described in Section 3 of
    [I-D.ietf-nmop-network-anomaly-semantics] and outlier pattern
-   semantics in Section 4 of [I-D.ietf-nmop-network-anomaly-lifecycle].
+   semantics in Section 8 of [I-D.ietf-nmop-network-anomaly-lifecycle].
    Both are expressed in YANG Service Models.
 
    However the semantic could also be expressed with the Semantic Web
@@ -694,7 +694,7 @@ Internet-Draft     Network Anomaly Detection Framework     November 2025
 3.5.1.1.  Expert Rules
 
    Some input to SDD is made of established knowledge network engineers,
-   (2) in Figure 1.  For example, that sudden drop spikes in the
+   (2) and (6) in Figure 1.  For example, that sudden drop spikes in the
    forwarding plane are most likely attributed to changes in the routing
    topology.  Or that drops in the fowarding plane can manifest in the
    increase of flow counts in the data plane due to the implied
