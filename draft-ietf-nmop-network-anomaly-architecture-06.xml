@@ -78,7 +78,7 @@
       </address>
     </author>
 
-    <author fullname="Alex Huang Feng" initials="A." surname="Huang Feng">
+    <author fullname="Alex Huang Feng" initials="A." surname="Huang-Feng">
       <organization>INSA-Lyon</organization>
 
       <address>
@@ -261,7 +261,7 @@
 				to perform SDD.</t>
 
         <t>Rules: Refers to rules defined by domain experts or
-				artifitial intelligence in context of detection strategies.
+				artificial intelligence in context of detection strategies.
 				See <xref target="Expert_Rules"/> for details on domain expert
 				rules.</t>
 
@@ -692,14 +692,17 @@ Subscribe                   Publish        |  |  |
 				knowledge is being applied.</t>
 				
           <section anchor="Expert_Rules" title="Expert Rules">
-            <t>Some input to SDD is made of established knowledge network
-  					engineers, (2) and (6) in <xref target="fig_arch"/>. For
-						example, that sudden drop spikes in the forwarding plane are
-						most likely attributed to changes in the routing topology.
-						Or that drops in the fowarding plane can manifest in the
-						increase of flow counts in the data plane due to the implied
+            <t>Some input to SDD is made of established knowledge from network
+  					engineers. This expertise can be used for both Service Disruption Detection
+            Configuration or SDD, (2) and (6) in <xref target="fig_arch"/> respectively. For
+						example, sudden spikes in drop counters from the forwarding plane are
+						likely to be attributed to changes in the routing topology.
+						Or, drops in the fowarding plane can manifest in an
+						increase of flow counts in the forwarding plane due to the implied
 						congestion and re-establishment of application transport
-						sessions.</t>
+						sessions. These network behaviours are typically sourced from the
+            experience of operating a network infrastructure by human operators, and
+            can be used by an SDD engine to trigger alerts.</t>
           </section>
 
           <section anchor="Network_Modeling" title="Network Modeling">
@@ -715,12 +718,12 @@ Subscribe                   Publish        |  |  |
           </section>
   
           <section anchor="Data_Profiling" title="Data Profiling">
-            <t>As rules cannot be crafted specifically for each customer
+            <t>As expert rules cannot be crafted specifically for each customer
   					because each customer has a different usage pattern, they
 						need to be defined according to pre-established service
 						profiles, (8) in <xref target="fig_arch"/>. Processing of
 						monitoring data can be performed in order to associate
-						patterns into clusters and associated them with profiles.
+						patterns into clusters and associate them with profiles.
 						External knowledge on customer types can also help in
 						associating clusters with profiles.</t>
           </section>
@@ -730,9 +733,12 @@ Subscribe                   Publish        |  |  |
             <t>For a profile, a set of strategies is defined. Each
   					strategy captures one approach to look at the data (as a
 						human operator does) to observe if an abnormal situation is
-						arising. Strategies are defined as a function of observed
-						outliers as defined in <xref target="Outlier_Detection"/>,
-						(9) in <xref target="fig_arch"/>.</t>
+						arising. Strategies can use both expert rule-based algorithms,
+            as described in <xref target="Expert_Rules"/>, or outlier
+            detection algorithms, as explained in <xref target="Outlier_Detection"/>.
+            Thus, a strategy defined as a combination of expert rule-based algorithms
+            or outlier detection algorithms that together trigger an alarm when a
+            disruption occur.</t>
   
             <t>When one of the strategies applied for a profile detects
 						a concerning global outlier or collective outlier, an Alarm
@@ -742,7 +748,7 @@ Subscribe                   Publish        |  |  |
   					scheduler may be needed in order to orchestrate the
 						evaluation of the Alarm levels for each strategy applied for
 						a profile, for all service instances associated with such
-						profile.</t>
+						profile, as illustrated in (9) from <xref target="fig_arch"/>.</t>
           </section>
         </section>
 
