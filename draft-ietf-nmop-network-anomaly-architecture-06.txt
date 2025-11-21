@@ -792,9 +792,9 @@ Internet-Draft     Network Anomaly Detection Framework     November 2025
    because each customer has a different usage pattern, they need to be
    defined according to pre-established service profiles, (8) in
    Figure 1.  Processing of monitoring data can be performed with
-   Machine Learning methods in order to associate patterns into clusters
-   and associate them with profiles.  External knowledge on customer
-   types can also help in associating clusters with profiles.
+   machine learning methods in order to identify and group patterns into
+   clusters and associate clusters with profiles.  External knowledge on
+   customer types can also help in associating clusters with profiles.
 
 3.5.1.4.  Detection Strategies
 

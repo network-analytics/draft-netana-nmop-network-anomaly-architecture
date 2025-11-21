@@ -739,8 +739,8 @@ Subscribe                   Publish        |  |  |
 						pattern, they need to be defined according to
 						pre-established service profiles, (8) in <xref
 						target="fig_arch"/>. Processing of monitoring data can be
-						performed with Machine Learning methods in order to
-						associate patterns into clusters and associate them with
+						performed with machine learning methods in order to identify
+						and group patterns into clusters and associate clusters with
 						profiles. External knowledge on customer types can also help
 						in associating clusters with profiles.</t>
           </section>
