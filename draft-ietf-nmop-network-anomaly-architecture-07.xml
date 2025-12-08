@@ -375,19 +375,19 @@
 					the operational Network Telemetry timeseries data.</dd>
         </dl>
 
-        <t>For each outlier a Confidence and a Concern Score between 0
-				and 1 is being calculated. The higher the Confidence Score value,
-				the higher the probability that the observed data point is an
-				outlier. The higher the Concern Score value, the higher
-        the probability that observed outlier is impacting the
-				forwarding of the customer packets negatively. Combined together
-				raising the Relevance of the observed events. <xref
+        <t>For each outlier a Confidence Score between 0 and 100 is
+				being calculated. The higher the Confidence Score value, the
+				higher the probability that the observed data point is an
+				outlier. For each strategy a Confidence and Concern Score
+				between 0 and 100 is being calculated. The higher the Confidence
+				Score value, the higher the probability that the strategy
+				detected and abnormal behaviour. The higher the Concern Score
+				value, the higher the higher the probability that the strategy
+				detected a potential connectivity service degredation. <xref
 				target="VAP09">Anomaly detection: A survey</xref> provides and
 				discusses an overview on different anomaly detection techniques
 				and the outlier detection approach adopted by each.</t>
       </section>
-
-
 
       <section anchor="Knowledge_Based_Detection"
                title="Knowledge Based Detection">

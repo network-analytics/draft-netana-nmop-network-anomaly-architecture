@@ -87,9 +87,9 @@ Table of Contents
    2.  Conventions and Definitions . . . . . . . . . . . . . . . . .   5
      2.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   5
      2.2.  Outlier Detection . . . . . . . . . . . . . . . . . . . .   6
-     2.3.  Knowledge Based Detection . . . . . . . . . . . . . . . .   7
+     2.3.  Knowledge Based Detection . . . . . . . . . . . . . . . .   8
      2.4.  Machine Learning  . . . . . . . . . . . . . . . . . . . .   8
-     2.5.  Data Mesh . . . . . . . . . . . . . . . . . . . . . . . .   8
+     2.5.  Data Mesh . . . . . . . . . . . . . . . . . . . . . . . .   9
    3.  Elements of the Architecture  . . . . . . . . . . . . . . . .  10
      3.1.  Service Inventory . . . . . . . . . . . . . . . . . . . .  12
      3.2.  Service Disruption Detection Configuration  . . . . . . .  12
@@ -367,15 +367,32 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
       establish a relationship between the operational Network Telemetry
       timeseries data.
 
-   For each outlier a Confidence and a Concern Score between 0 and 1 is
-   being calculated.  The higher the Confidence Score value, the higher
-   the probability that the observed data point is an outlier.  The
-   higher the Concern Score value, the higher the probability that
-   observed outlier is impacting the forwarding of the customer packets
-   negatively.  Combined together raising the Relevance of the observed
-   events.  Anomaly detection: A survey [VAP09] provides and discusses
-   an overview on different anomaly detection techniques and the outlier
-   detection approach adopted by each.
+   For each outlier a Confidence Score between 0 and 100 is being
+   calculated.  The higher the Confidence Score value, the higher the
+   probability that the observed data point is an outlier.  For each
+   strategy a Confidence and Concern Score between 0 and 100 is being
+   calculated.  The higher the Confidence Score value, the higher the
+   probability that the strategy detected and abnormal behaviour.  The
+   higher the Concern Score value, the higher the higher the probability
+   that the strategy detected a potential connectivity service
+   degredation.  Anomaly detection: A survey [VAP09] provides and
+   discusses an overview on different anomaly detection techniques and
+   the outlier detection approach adopted by each.
+
+
+
+
+
+
+
+
+
+
+
+Graf, et al.              Expires 11 June 2026                  [Page 7]
+
+Internet-Draft     Network Anomaly Detection Framework     December 2025
+
 
 2.3.  Knowledge Based Detection
 
@@ -386,14 +403,6 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    against predefined rules or patterns.  This approach relies on the
    use of domain-specific knowledge to set standards, thresholds, or
    rules for what is considered "normal" behavior.  Traditionally, these
-
-
-
-Graf, et al.              Expires 11 June 2026                  [Page 7]
-
-Internet-Draft     Network Anomaly Detection Framework     December 2025
-
-
    rules are established manually by a knowledgeable network engineer.
    Forward-looking, these rules can be expressed using human and machine
    readable network protocol derived Symptoms and patterns defined in
@@ -433,15 +442,6 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    capability to identify anomaly patterns that might go unnoticed to
    the human observer.
 
-2.5.  Data Mesh
-
-   The Data Mesh [Deh22] Architecture distinguishes between operational
-   and analytical data.  Operational data refers to collected data from
-   operational systems.  While analytical data refers to insights gained
-   from operational data.
-
-
-
 
 
 
@@ -449,6 +449,13 @@ Graf, et al.              Expires 11 June 2026                  [Page 8]
 
 Internet-Draft     Network Anomaly Detection Framework     December 2025
 
+
+2.5.  Data Mesh
+
+   The Data Mesh [Deh22] Architecture distinguishes between operational
+   and analytical data.  Operational data refers to collected data from
+   operational systems.  While analytical data refers to insights gained
+   from operational data.
 
 2.5.1.  Operational Network Data
 
@@ -490,13 +497,6 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    semantics in Section 8 of [I-D.ietf-nmop-network-anomaly-lifecycle].
    Both are expressed in YANG Service Models.
 
-   However the semantic could also be expressed with the Semantic Web
-   Technology Stack in RDF, RDFS and OWL definitions as described in
-   Section 6 of [I-D.mackey-nmop-kg-for-netops].  Together with the
-   ontology definitions described in Section 3 of
-   [I-D.ietf-nmop-network-anomaly-semantics], a Knowledge Graph can be
-   created describing the relationship between the network state and the
-   observed Symptom.
 
 
 
@@ -505,6 +505,14 @@ Graf, et al.              Expires 11 June 2026                  [Page 9]
 
 Internet-Draft     Network Anomaly Detection Framework     December 2025
 
+
+   However the semantic could also be expressed with the Semantic Web
+   Technology Stack in RDF, RDFS and OWL definitions as described in
+   Section 6 of [I-D.mackey-nmop-kg-for-netops].  Together with the
+   ontology definitions described in Section 3 of
+   [I-D.ietf-nmop-network-anomaly-semantics], a Knowledge Graph can be
+   created describing the relationship between the network state and the
+   observed Symptom.
 
 3.  Elements of the Architecture
 
@@ -517,14 +525,6 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
 
    The system architecture is illustrated in Figure 1 and its main
    components are described in the following subsections.
-
-
-
-
-
-
-
-
 
 
 
