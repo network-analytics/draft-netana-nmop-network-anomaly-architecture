@@ -382,11 +382,11 @@
 				between 0 and 100 is being calculated. The higher the Confidence
 				Score value, the higher the probability that the strategy
 				detected an outlier. The higher the Concern Score value, the
-				higher the higher the probability that the strategy detected a
-				potential connectivity service degredation. <xref
-				target="VAP09">Anomaly detection: A survey</xref> provides and
-				discusses an overview on different anomaly detection techniques
-				and the outlier detection approach adopted by each.</t>
+				higher probability that the strategy detected a potential
+				connectivity service degradation. <xref target="VAP09">Anomaly
+				detection: A survey</xref> provides and discusses an overview on
+				different anomaly detection techniques and the outlier detection
+				approach adopted by each.</t>
       </section>
 
       <section anchor="Knowledge_Based_Detection"

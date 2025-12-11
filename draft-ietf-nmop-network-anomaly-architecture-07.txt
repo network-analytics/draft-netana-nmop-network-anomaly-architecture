@@ -373,11 +373,11 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    strategy a Confidence and Concern Score between 0 and 100 is being
    calculated.  The higher the Confidence Score value, the higher the
    probability that the strategy detected an outlier.  The higher the
-   Concern Score value, the higher the higher the probability that the
-   strategy detected a potential connectivity service degredation.
-   Anomaly detection: A survey [VAP09] provides and discusses an
-   overview on different anomaly detection techniques and the outlier
-   detection approach adopted by each.
+   Concern Score value, the higher probability that the strategy
+   detected a potential connectivity service degradation.  Anomaly
+   detection: A survey [VAP09] provides and discusses an overview on
+   different anomaly detection techniques and the outlier detection
+   approach adopted by each.
 
 
 
