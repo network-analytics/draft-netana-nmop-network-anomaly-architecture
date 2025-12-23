@@ -616,7 +616,7 @@ Subscribe                   Publish        |  |  |
 				as a result of Events impacting the service, or the occurrence
 				of false positives raised by the Alarm system. These postmortem
 				analysis can improve the deployed profiles parameters and
-				creation of new customer profiles. See upcoming section <xref
+				creation of new service profiles. See upcoming section <xref
 				target="Data_Profiling"/> for details on profiling.</t>
       </section>
 
@@ -651,12 +651,16 @@ Subscribe                   Publish        |  |  |
         <t>Pre-processing of collected network monitoring data is 
 				usually performed to reduce input for the Service Disruption
 				Detection component since not all metrics are relevant for this
-				use case. This can be achieved in multiple ways, depending on
-				the architecture of the SDD component. As an example, the
-				granularity or cardinality at which forwarding plane data is
-				produced by the network may be too high for the SDD algorithms,
-				and instead be aggregated into a coarser dimension for SDD
-				execution.</t>
+				use case. Aggregating data prior to analysis thus may help to
+				reduce the amount of data to be processed by the SDD component
+				and thus speed up anomaly detection.This can be achieved in
+				multiple ways, depending on the architecture of the SDD
+				component. As an example, the temporal granularity of a metric
+				may be reduced by calculating aggregated statistics for a longer
+				time interval or the cardinality of a dataset is being reduced
+				since certain metrics are not needed. Aggregation of input data
+				into a coarser dimension may simplify and speed up SDD execution.
+				</t>
 
         <t>A retention time for the operational data needs to be decided
 				on Aggregated data and should reflect the expected further use.
@@ -743,8 +747,9 @@ Subscribe                   Publish        |  |  |
 						target="fig_arch"/>. Processing of monitoring data can be
 						performed with machine learning methods in order to identify
 						and group patterns into clusters and associate clusters with
-						profiles. External knowledge on customer types can also help
-						in associating clusters with profiles.</t>
+						pre-established service profiles. External knowledge on
+						customer types can also help in associating clusters with
+						profiles.</t>
           </section>
   
           <section anchor="Detection_Strategies"
@@ -760,10 +765,10 @@ Subscribe                   Publish        |  |  |
 						detection algorithms that together trigger an alarm when a
             disruption occur.</t>
   
-            <t>When one of the strategies applied for a profile detects
-						a concerning global outlier or collective outlier, an Alarm
-  					MUST be raised.</t>
-  
+            <t>When one of the strategies applied for a profile results
+						in a concern score above a given threshold, an Alarm MUST be
+						raised.</t>
+
             <t>Depending on the implementation of the architecture, a
   					scheduler may be needed in order to orchestrate the
 						evaluation of the Alarm levels for each strategy applied for

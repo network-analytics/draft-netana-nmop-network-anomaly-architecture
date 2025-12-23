@@ -642,7 +642,7 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    performed.  Postmortem analysis are produced as a result of Events
    impacting the service, or the occurrence of false positives raised by
    the Alarm system.  These postmortem analysis can improve the deployed
-   profiles parameters and creation of new customer profiles.  See
+   profiles parameters and creation of new service profiles.  See
    upcoming section Section 3.5.1.3 for details on profiling.
 
 3.3.  Operational Data Collection
@@ -682,12 +682,16 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
 
    Pre-processing of collected network monitoring data is usually
    performed to reduce input for the Service Disruption Detection
-   component since not all metrics are relevant for this use case.  This
-   can be achieved in multiple ways, depending on the architecture of
-   the SDD component.  As an example, the granularity or cardinality at
-   which forwarding plane data is produced by the network may be too
-   high for the SDD algorithms, and instead be aggregated into a coarser
-   dimension for SDD execution.
+   component since not all metrics are relevant for this use case.
+   Aggregating data prior to analysis thus may help to reduce the amount
+   of data to be processed by the SDD component and thus speed up
+   anomaly detection.This can be achieved in multiple ways, depending on
+   the architecture of the SDD component.  As an example, the temporal
+   granularity of a metric may be reduced by calculating aggregated
+   statistics for a longer time interval or the cardinality of a dataset
+   is being reduced since certain metrics are not needed.  Aggregation
+   of input data into a coarser dimension may simplify and speed up SDD
+   execution.
 
    A retention time for the operational data needs to be decided on
    Aggregated data and should reflect the expected further use.  As
@@ -718,10 +722,6 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    making.  Alternatively, a streaming approach can be followed so as to
    process the data while they are being consumed from the collection
    component.
-
-
-
-
 
 
 
@@ -793,8 +793,9 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    defined according to pre-established service profiles, (8) in
    Figure 1.  Processing of monitoring data can be performed with
    machine learning methods in order to identify and group patterns into
-   clusters and associate clusters with profiles.  External knowledge on
-   customer types can also help in associating clusters with profiles.
+   clusters and associate clusters with pre-established service
+   profiles.  External knowledge on customer types can also help in
+   associating clusters with profiles.
 
 3.5.1.4.  Detection Strategies
 
@@ -807,8 +808,8 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    or outlier detection algorithms that together trigger an alarm when a
    disruption occur.
 
-   When one of the strategies applied for a profile detects a concerning
-   global outlier or collective outlier, an Alarm MUST be raised.
+   When one of the strategies applied for a profile results in a concern
+   score above a given threshold, an Alarm MUST be raised.
 
    Depending on the implementation of the architecture, a scheduler may
    be needed in order to orchestrate the evaluation of the Alarm levels
@@ -833,7 +834,6 @@ Internet-Draft     Network Anomaly Detection Framework     December 2025
    shown in Figure 4 in Section 3 of [I-D.ietf-nmop-terminology] and
    (11) in Figure 1.  Multiple practical aspects need to be taken into
    account in this component.
-
 
 
 
